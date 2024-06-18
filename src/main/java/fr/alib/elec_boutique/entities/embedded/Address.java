@@ -41,6 +41,13 @@ public class Address {
 	public void setCountry(String country) {
 		this.country = country;
 	}
+	public void applyDTO(AddressDTO dto)
+	{
+		this.street = dto.getStreet();
+		this.city = dto.getCity();
+		this.zipCode = dto.getZipCode();
+		this.country = dto.getCountry();
+	}
 	public Address(String street, String city, String zipCode, String country) {
 		super();
 		this.street = street;
@@ -50,10 +57,7 @@ public class Address {
 	}
 	public Address(AddressDTO dto) {
 		super();
-		this.street = dto.getStreet();
-		this.city = dto.getCity();
-		this.zipCode = dto.getZipCode();
-		this.country = dto.getCountry();
+		this.applyDTO(dto);
 	}
 	public Address() {
 		super();

@@ -45,4 +45,8 @@ public class JWTUtils {
 			return null;
 		}
 	}
+
+	public long getExpirationTime() {
+		return expirationTime;
+	}
 }

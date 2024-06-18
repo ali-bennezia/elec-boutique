@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import fr.alib.elec_boutique.dtos.inbound.UserRegisterInboundDTO;
+import fr.alib.elec_boutique.entities.embedded.Address;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.CascadeType;
@@ -35,6 +39,8 @@ public class User {
 	private String firstName;
 	@Column(nullable = false)
 	private String lastName;
+	@Column(nullable = true)
+	private String profilePhotoMedia;
 	@Column(nullable = false)
 	private String password;
 	@Column(nullable = false)
@@ -91,6 +97,12 @@ public class User {
 	}
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+	public String getProfilePhotoMedia() {
+		return profilePhotoMedia;
+	}
+	public void setProfilePhotoMedia(String profilePhotoMedia) {
+		this.profilePhotoMedia = profilePhotoMedia;
 	}
 	public String getPassword() {
 		return password;
@@ -149,7 +161,7 @@ public class User {
 	@Override
 	public int hashCode() {
 		return Objects.hash(address, businessAddress, businessName, cards, createdAt, email, enabled, firstName, id,
-				lastName, password, products, roles, username);
+				lastName, password, products, profilePhotoMedia, roles, username);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -166,9 +178,46 @@ public class User {
 				&& Objects.equals(enabled, other.enabled) && Objects.equals(firstName, other.firstName)
 				&& Objects.equals(id, other.id) && Objects.equals(lastName, other.lastName)
 				&& Objects.equals(password, other.password) && Objects.equals(products, other.products)
-				&& Objects.equals(roles, other.roles) && Objects.equals(username, other.username);
+				&& Objects.equals(profilePhotoMedia, other.profilePhotoMedia) && Objects.equals(roles, other.roles)
+				&& Objects.equals(username, other.username);
 	}
-	
+	public void applyDTO(UserRegisterInboundDTO dto, PasswordEncoder pwdEncoder)
+	{
+		this.setUsername(dto.getUsername());
+		this.setEmail(dto.getEmail());
+		this.setFirstName(dto.getFirstName());
+		this.setLastName(dto.getLastName());
+		this.setPassword( pwdEncoder.encode( dto.getPassword() ));
+		this.setAddress( new Address( dto.getAddress() ) );
+		this.setBusinessName(dto.getBusinessName());
+		this.setBusinessAddress( new Address(dto.getBusinessAddress()) );
+	}
+	public User(Long id, String username, String email, String firstName, String lastName, String profilePhotoMedia,
+			String password, Boolean enabled, Timestamp createdAt, String roles, Address address, String businessName,
+			Address businessAddress, List<Card> cards, List<Product> products) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.email = email;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.profilePhotoMedia = profilePhotoMedia;
+		this.password = password;
+		this.enabled = enabled;
+		this.createdAt = createdAt;
+		this.roles = roles;
+		this.address = address;
+		this.businessName = businessName;
+		this.businessAddress = businessAddress;
+		this.cards = cards;
+		this.products = products;
+	}
+	public User(UserRegisterInboundDTO dto, PasswordEncoder pwdEncoder, String roles, String profilePhotoMedia) {
+		super();
+		this.applyDTO(dto, pwdEncoder);
+		this.setRoles(roles);
+		this.setProfilePhotoMedia(profilePhotoMedia);
+	}
 	
 	
 }
