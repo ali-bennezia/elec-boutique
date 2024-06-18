@@ -1,9 +1,11 @@
 package fr.alib.elec_boutique.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
@@ -24,13 +26,17 @@ public class ProductService {
 	/**
 	 * Creates a product.
 	 * @param dto The product DTO.
+	 * @param userId The owner's user id.
+	 * @param files The files uploaded with the product.
 	 * @return The created product.
 	 * @throws IllegalArgumentException
 	 * @throws OptimisticLockingFailureException
 	 */
-	public Product createProduct(ProductInboundDTO dto, List<String> medias) throws IllegalArgumentException, OptimisticLockingFailureException
+	public Product createProduct(ProductInboundDTO dto, Long userId, List<Resource> files) throws 
+		IllegalArgumentException, 
+		OptimisticLockingFailureException
 	{
-		Product product = new Product(dto, medias);
+		Product product = new Product(dto, new ArrayList<String>());
 		product = this.productRepository.save(product);
 		return product;
 	}

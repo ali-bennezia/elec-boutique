@@ -28,7 +28,7 @@ public class Product {
 	private String description;
 	@Column(nullable = true)
 	private String tags;
-	@Column(nullable = false, precision = 12, scale = 2)
+	@Column(nullable = false, precision = 12)
 	private Float price;
 	private List<String> medias = new ArrayList<String>();
 	

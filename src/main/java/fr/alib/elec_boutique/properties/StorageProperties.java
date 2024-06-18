@@ -2,7 +2,9 @@ package fr.alib.elec_boutique.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+import org.springframework.stereotype.Component;
 
+@Component
 @ConfigurationProperties("storage")
 @ConfigurationPropertiesScan
 public class StorageProperties {

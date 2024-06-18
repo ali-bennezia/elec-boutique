@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import fr.alib.elec_boutique.services.UserService;
+import fr.alib.elec_boutique.utils.JWTUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,10 +22,10 @@ import jakarta.servlet.http.HttpServletResponse;
 public class AuthenticationFilter extends OncePerRequestFilter {
 
 	@Autowired
-	private fr.alib.elec_boutique.utils.JWTUtils jwt;
+	private JWTUtils jwt;
 	
 	@Autowired
-	private fr.alib.elec_boutique.services.UserService userService;
+	private UserService userService;
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
