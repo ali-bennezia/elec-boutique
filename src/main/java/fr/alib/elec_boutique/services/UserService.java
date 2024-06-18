@@ -1,10 +1,6 @@
 package fr.alib.elec_boutique.services;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,11 +20,6 @@ import fr.alib.elec_boutique.exceptions.IdNotFoundException;
 import fr.alib.elec_boutique.repositories.UserRepository;
 import fr.alib.elec_boutique.utils.JWTUtils;
 import fr.alib.elec_boutique.utils.TimeUtils;
-import fr.alib.gotrips.model.auth.CustomUserDetails;
-import fr.alib.gotrips.model.dto.inbound.UserRegisterDTO;
-import fr.alib.gotrips.model.entity.company.ActivityCompany;
-import fr.alib.gotrips.model.entity.company.FlightCompany;
-import fr.alib.gotrips.model.entity.company.HotelCompany;
 import io.jsonwebtoken.lang.Arrays;
 
 @Service
@@ -105,7 +96,7 @@ public class UserService implements UserDetailsService {
 		roles.add("ROLE_USER");
 		if (isAdmin) roles.add("ROLE_ADMIN");
 
-		user = new User(dto, pwdEncoder, String.join(", ", roles));
+		user = new User(dto, pwdEncoder, String.join(", ", roles), null);
 		user = userRepository.save(user);
 		
 		return new CustomUserDetails(user);

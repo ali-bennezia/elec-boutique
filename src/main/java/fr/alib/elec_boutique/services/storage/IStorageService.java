@@ -10,11 +10,13 @@ public interface IStorageService {
 
 	void init();
 	
-	void store(MultipartFile file);
+	String store(MultipartFile file);
 	
 	Stream<Path> loadAll();
 	
 	Path load(String fileName);
+	
+	void delete(String fileName);
 	
 	Resource loadAsResource(String fileName);
 	
