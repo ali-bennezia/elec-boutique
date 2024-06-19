@@ -1,5 +1,6 @@
 package fr.alib.elec_boutique.dtos.inbound;
 
+import fr.alib.elec_boutique.dtos.duplex.AddressDTO;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -10,6 +11,7 @@ public class CardInboundDTO {
 	private String ccv;
 	@NotNull
 	private Long expirationDateTime;
+	private AddressDTO address;
 	public String getCode() {
 		return code;
 	}
@@ -28,11 +30,21 @@ public class CardInboundDTO {
 	public void setExpirationDateTime(Long expirationDateTime) {
 		this.expirationDateTime = expirationDateTime;
 	}
+	public AddressDTO getAddress() {
+		return address;
+	}
+	public void setAddress(AddressDTO address) {
+		this.address = address;
+	}
 	public CardInboundDTO(@Size(min = 13, max = 19) String code, @Size(min = 3, max = 3) String ccv,
-			@NotNull Long expirationDateTime) {
+			@NotNull Long expirationDateTime, AddressDTO address) {
 		super();
 		this.code = code;
 		this.ccv = ccv;
 		this.expirationDateTime = expirationDateTime;
+		this.address = address;
+	}
+	public CardInboundDTO() {
+		super();
 	}
 }

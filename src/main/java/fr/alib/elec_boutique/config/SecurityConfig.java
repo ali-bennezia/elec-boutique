@@ -31,6 +31,12 @@ public class SecurityConfig {
 		.authorizeHttpRequests( authz -> 
 			authz
 			.requestMatchers(
+					"/api/users/authenticate",
+					"/api/users/signin",
+					"/api/users/register"
+					)
+			.permitAll()
+			.requestMatchers(
 					"/api/users/profile",
 					"/api/users/cards",
 					"/api/users/cards/*"

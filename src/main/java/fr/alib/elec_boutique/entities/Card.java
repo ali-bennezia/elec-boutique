@@ -5,8 +5,10 @@ import java.util.Objects;
 
 import org.springframework.security.crypto.encrypt.BytesEncryptor;
 
+import fr.alib.elec_boutique.dtos.duplex.AddressDTO;
 import fr.alib.elec_boutique.dtos.inbound.CardInboundDTO;
 import fr.alib.elec_boutique.entities.embedded.Address;
+import fr.alib.elec_boutique.entities.embedded.PaymentData;
 import fr.alib.elec_boutique.utils.EncryptionUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -21,17 +23,10 @@ public class Card {
 
 	@Id
 	private Long id;
-	@Column(nullable = false)
-	private byte[] codeEncrypted;
-	@Column(nullable = false)
-	private byte[] ccvEncrypted;
-	@Column(nullable = false)
-	private byte[] expirationDateTimeEncrypted;
+	@Embedded
+	private PaymentData paymentData;
 	@ManyToOne(targetEntity = User.class)
 	private User user;
-	@Embedded
-	private fr.alib.elec_boutique.entities.embedded.Address address;
-	
 
 	public Long getId() {
 		return id;
@@ -40,29 +35,37 @@ public class Card {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	public PaymentData getPaymentData() {
+		return paymentData;
+	}
+
+	public void setPaymentData(PaymentData paymentData) {
+		this.paymentData = paymentData;
+	}
 
 	public byte[] getCodeEncrypted() {
-		return codeEncrypted;
+		return this.getPaymentData().getCodeEncrypted();
 	}
 
 	public void setCodeEncrypted(byte[] codeEncrypted) {
-		this.codeEncrypted = codeEncrypted;
+		this.getPaymentData().setCcvEncrypted(codeEncrypted);
 	}
 
 	public byte[] getCcvEncrypted() {
-		return ccvEncrypted;
+		return this.getPaymentData().getCcvEncrypted();
 	}
 
 	public void setCcvEncrypted(byte[] ccvEncrypted) {
-		this.ccvEncrypted = ccvEncrypted;
+		this.getPaymentData().setCcvEncrypted(ccvEncrypted);
 	}
 
 	public byte[] getExpirationDateTimeEncrypted() {
-		return expirationDateTimeEncrypted;
+		return this.getPaymentData().getExpirationDateTimeEncrypted();
 	}
 
 	public void setExpirationDateTimeEncrypted(byte[] expirationDateTimeEncrypted) {
-		this.expirationDateTimeEncrypted = expirationDateTimeEncrypted;
+		this.getPaymentData().setExpirationDateTimeEncrypted(expirationDateTimeEncrypted);
 	}
 
 	public User getUser() {
@@ -73,12 +76,17 @@ public class Card {
 		this.user = user;
 	}
 
-	public fr.alib.elec_boutique.entities.embedded.Address getAddress() {
-		return address;
+	public Address getAddress() {
+		return this.getPaymentData().getAddress();
 	}
 
-	public void setAddress(fr.alib.elec_boutique.entities.embedded.Address address) {
-		this.address = address;
+	public void setAddress(Address address) {
+		this.getPaymentData().setAddress(address);
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, paymentData, user);
 	}
 
 	@Override
@@ -90,28 +98,33 @@ public class Card {
 		if (getClass() != obj.getClass())
 			return false;
 		Card other = (Card) obj;
-		return Objects.equals(address, other.address) && Objects.equals(ccvEncrypted, other.ccvEncrypted)
-				&& Objects.equals(codeEncrypted, other.codeEncrypted)
-				&& Objects.equals(expirationDateTimeEncrypted, other.expirationDateTimeEncrypted)
-				&& Objects.equals(id, other.id) && Objects.equals(user, other.user);
+		return Objects.equals(id, other.id) && Objects.equals(paymentData, other.paymentData)
+				&& Objects.equals(user, other.user);
+	}
+
+	public void applyDTO(CardInboundDTO dto, BytesEncryptor encryptor, EncryptionUtils encryptionUtils)
+	{
+		this.setCodeEncrypted( encryptor.encrypt(dto.getCode().getBytes(StandardCharsets.UTF_8) ) );
+		this.setCcvEncrypted( encryptor.encrypt( dto.getCcv().getBytes(StandardCharsets.UTF_8) ) );
+		this.setExpirationDateTimeEncrypted( encryptor.encrypt( encryptionUtils.longToBytes( dto.getExpirationDateTime() ) ) );
+		this.setAddress(new Address( dto.getAddress() ));	
 	}
 	
 	public Card(Long id, byte[] codeEncrypted, byte[] ccvEncrypted, byte[] expirationDateTimeEncrypted, User user,
 			Address address) {
 		super();
 		this.id = id;
-		this.codeEncrypted = codeEncrypted;
-		this.ccvEncrypted = ccvEncrypted;
-		this.expirationDateTimeEncrypted = expirationDateTimeEncrypted;
+		this.setCodeEncrypted(codeEncrypted);
+		this.setCcvEncrypted(ccvEncrypted);
+		this.setExpirationDateTimeEncrypted(expirationDateTimeEncrypted);
 		this.user = user;
-		this.address = address;
+		this.setAddress(address);
 	}
 
-	public Card(CardInboundDTO dto, BytesEncryptor encryptor, EncryptionUtils encryptionUtils ) 
+	public Card(CardInboundDTO dto, BytesEncryptor encryptor, EncryptionUtils encryptionUtils, User user ) 
 	{
-		this.setCodeEncrypted( encryptor.encrypt(dto.getCode().getBytes(StandardCharsets.UTF_8) ) );
-		this.setCcvEncrypted( encryptor.encrypt( dto.getCcv().getBytes(StandardCharsets.UTF_8) ) );
-		this.setExpirationDateTimeEncrypted( encryptor.encrypt( encryptionUtils.longToBytes( dto.getExpirationDateTime() ) ) );
+		this.applyDTO(dto, encryptor, encryptionUtils);
+		this.setUser(user);
 	}
 	public Card() {
 		super();

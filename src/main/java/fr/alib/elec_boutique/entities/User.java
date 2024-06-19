@@ -1,12 +1,14 @@
 package fr.alib.elec_boutique.entities;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import fr.alib.elec_boutique.dtos.inbound.UserProfileInboundDTO;
 import fr.alib.elec_boutique.dtos.inbound.UserRegisterInboundDTO;
 import fr.alib.elec_boutique.entities.embedded.Address;
 import jakarta.persistence.AttributeOverride;
@@ -192,6 +194,16 @@ public class User {
 		this.setBusinessName(dto.getBusinessName());
 		this.setBusinessAddress( new Address(dto.getBusinessAddress()) );
 	}
+	public void applyProfileDTO(UserProfileInboundDTO dto, PasswordEncoder pwdEncoder)
+	{
+		if (dto.getEmail() != null) this.setEmail(dto.getEmail());
+		if (dto.getFirstName() != null) this.setFirstName(dto.getFirstName());
+		if (dto.getLastName() != null) this.setLastName(dto.getLastName());
+		if (dto.getPassword() != null) this.setPassword(pwdEncoder.encode(dto.getPassword()));
+		if (dto.getAddress() != null) this.setAddress(new Address( dto.getAddress() ));
+		if (dto.getBusinessName() != null) this.setBusinessName(dto.getBusinessName());
+		if (dto.getBusinessAddress() != null) this.setBusinessAddress(new Address( dto.getBusinessAddress() ));
+	}
 	public User(Long id, String username, String email, String firstName, String lastName, String profilePhotoMedia,
 			String password, Boolean enabled, Timestamp createdAt, String roles, Address address, String businessName,
 			Address businessAddress, List<Card> cards, List<Product> products) {
@@ -212,11 +224,16 @@ public class User {
 		this.cards = cards;
 		this.products = products;
 	}
-	public User(UserRegisterInboundDTO dto, PasswordEncoder pwdEncoder, String roles, String profilePhotoMedia) {
+	public User(UserRegisterInboundDTO dto, PasswordEncoder pwdEncoder, String roles, String profilePhotoMedia, Boolean enabled) {
 		super();
 		this.applyDTO(dto, pwdEncoder);
 		this.setRoles(roles);
 		this.setProfilePhotoMedia(profilePhotoMedia);
+		this.setEnabled(enabled);
+		this.setCreatedAt(Timestamp.from(Instant.now()));
+	}
+	public User() {
+		super();
 	}
 	
 	
