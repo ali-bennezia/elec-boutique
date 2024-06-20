@@ -33,6 +33,7 @@ public class UserRegisterInboundDTO {
 	private String businessName;
 	@Nullable
 	private AddressDTO businessAddress;
+	private boolean isProvider;
 	
 	public String getUsername() {
 		return username;
@@ -82,9 +83,16 @@ public class UserRegisterInboundDTO {
 	public void setBusinessAddress(AddressDTO businessAddress) {
 		this.businessAddress = businessAddress;
 	}
+	public boolean isProvider() {
+		return isProvider;
+	}
+	public void setProvider(boolean isProvider) {
+		this.isProvider = isProvider;
+	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(address, businessAddress, businessName, email, firstName, lastName, password, username);
+		return Objects.hash(address, businessAddress, businessName, email, firstName, isProvider, lastName, password,
+				username);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -97,8 +105,29 @@ public class UserRegisterInboundDTO {
 		UserRegisterInboundDTO other = (UserRegisterInboundDTO) obj;
 		return Objects.equals(address, other.address) && Objects.equals(businessAddress, other.businessAddress)
 				&& Objects.equals(businessName, other.businessName) && Objects.equals(email, other.email)
-				&& Objects.equals(firstName, other.firstName) && Objects.equals(lastName, other.lastName)
-				&& Objects.equals(password, other.password) && Objects.equals(username, other.username);
+				&& Objects.equals(firstName, other.firstName) && isProvider == other.isProvider
+				&& Objects.equals(lastName, other.lastName) && Objects.equals(password, other.password)
+				&& Objects.equals(username, other.username);
 	}
-	
+	public UserRegisterInboundDTO(@NotEmpty @Size(min = 6, max = 60) String username,
+			@NotEmpty @Email @Size(min = 3, max = 254) String email,
+			@NotEmpty @Size(min = 2, max = 50) String firstName, @NotEmpty @Size(min = 2, max = 50) String lastName,
+			@NotEmpty @Size(min = 8, max = 128) String password, @NotNull AddressDTO address, String businessName,
+			AddressDTO businessAddress, boolean isProvider) {
+		super();
+		this.username = username;
+		this.email = email;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.password = password;
+		this.address = address;
+		this.businessName = businessName;
+		this.businessAddress = businessAddress;
+		this.isProvider = isProvider;
+	}
+	public UserRegisterInboundDTO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 }

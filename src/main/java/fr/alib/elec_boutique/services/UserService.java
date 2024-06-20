@@ -109,7 +109,8 @@ public class UserService implements UserDetailsService {
 		List<String> roles = new ArrayList<String>();
 		roles.add("ROLE_USER");
 		if (isAdmin) roles.add("ROLE_ADMIN");
-
+		if (dto.isProvider()) roles.add("ROLE_PROVIDER");
+		
 		user = new User(dto, pwdEncoder, String.join(", ", roles), null, true);
 		user = userRepository.save(user);
 		
@@ -172,9 +173,43 @@ public class UserService implements UserDetailsService {
 		Optional<User> result = this.userRepository.findById(id);
 		if (result.isEmpty()) throw new IdNotFoundException("Couldn't find user with id '" + id + "'.");
 		User user = result.get();
-		user.applyProfileDTO(dto, pwdEncoder);
+		user.applyProfilePatchDTO(dto, pwdEncoder);
 		user = this.userRepository.save(user);
 		return user;
+	}
+	
+
+	/**
+	 * Saves a given user.
+	 * @param user The user.
+	 * @return The saved user entity.
+	 * @throws IllegalArgumentException
+	 * @throws OptimisticLockingFailureException
+	 */
+	public User saveUser(User user) throws
+		IllegalArgumentException,
+		OptimisticLockingFailureException
+	{
+		return this.userRepository.save(user);
+	}
+	
+	/**
+	 * Edits a user's profile photo media.
+	 * @param user The user entity.
+	 * @param media The media file name.
+	 * @return The modified user entity.
+	 * @throws IllegalArgumentException
+	 * @throws OptimisticLockingFailureException
+	 */
+	public User editUserProfilePhotoMedia(User user, String media) throws
+		IllegalArgumentException,
+		OptimisticLockingFailureException
+	{
+		if (user.getProfilePhotoMedia() != null) {
+			this.mediaService.deleteMedia(user.getProfilePhotoMedia());
+		}
+		user.setProfilePhotoMedia( media );
+		return this.userRepository.save(user);
 	}
 
 

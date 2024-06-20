@@ -194,7 +194,7 @@ public class User {
 		this.setBusinessName(dto.getBusinessName());
 		this.setBusinessAddress( new Address(dto.getBusinessAddress()) );
 	}
-	public void applyProfileDTO(UserProfileInboundDTO dto, PasswordEncoder pwdEncoder)
+	public void applyProfilePatchDTO(UserProfileInboundDTO dto, PasswordEncoder pwdEncoder)
 	{
 		if (dto.getEmail() != null) this.setEmail(dto.getEmail());
 		if (dto.getFirstName() != null) this.setFirstName(dto.getFirstName());

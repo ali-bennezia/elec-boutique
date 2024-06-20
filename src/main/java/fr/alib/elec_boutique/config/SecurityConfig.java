@@ -39,7 +39,10 @@ public class SecurityConfig {
 			.requestMatchers(
 					"/api/users/profile",
 					"/api/users/cards",
-					"/api/users/cards/*"
+					"/api/users/cards/*",
+					"/api/products/:id/pay*",
+					"/api/users/invoices",
+					"/api/users/invoices/*"
 					)
 			.hasAnyRole("USER")
 			.requestMatchers(
