@@ -1,6 +1,8 @@
 package fr.alib.elec_boutique.services;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import fr.alib.elec_boutique.entities.Product;
 import fr.alib.elec_boutique.entities.User;
 import fr.alib.elec_boutique.exceptions.IdNotFoundException;
 import fr.alib.elec_boutique.repositories.CommentRepository;
+import io.jsonwebtoken.lang.Arrays;
 
 @Service
 @Transactional
@@ -72,15 +75,27 @@ public class CommentService {
 		return result.get();
 	}
 	
+	private final List<String> filterOptions = Arrays.asList( new String[] {
+			"page"
+	} );
+
 	/**
 	 * Gets a list of product comments by page.
 	 * @param productId The product's id.
-	 * @param page The 0-indexed page.
+	 * @param params The query parameters.
 	 * @return The list of comments.
 	 * @throws IllegalArgumentException
 	 */
-	public List<Comment> getCommentsByProductId(Long productId, Integer page) throws IllegalArgumentException
+	public List<Comment> getCommentsByProductId(Long productId, Map<String, String> params) throws IllegalArgumentException
 	{
+		for (String key : params.keySet()) {
+			if (!filterOptions.contains(key)) {
+				throw new IllegalArgumentException();
+			}
+		}
+		
+		Integer page = params.containsKey("page") ? Integer.valueOf( params.get("page") ) : 0;
+
 		if (page < 0) throw new IllegalArgumentException("Incorrect page, value can't be negative.");
 		Pageable pageable = PageRequest.of(page, 10, Sort.unsorted());
 		Page<Comment> comments = this.commentRepository.findAllByProductId(productId, pageable);

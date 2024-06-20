@@ -1,5 +1,7 @@
 package fr.alib.elec_boutique.entities;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Objects;
 
 import fr.alib.elec_boutique.dtos.inbound.CommentInboundDTO;
@@ -7,6 +9,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Table
 @Entity
@@ -20,6 +24,8 @@ public class Comment {
 	private Integer note;
 	@ManyToOne(targetEntity = Product.class)
 	private Product product;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Timestamp createdAt;
 	
 	public Long getId() {
 		return id;
@@ -57,10 +63,15 @@ public class Comment {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
-
+	public Timestamp getCreatedAt() {
+		return createdAt;
+	}
+	public void setCreatedAt(Timestamp createdAt) {
+		this.createdAt = createdAt;
+	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(author, content, id, note, product, title);
+		return Objects.hash(author, content, createdAt, id, note, product, title);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -72,17 +83,17 @@ public class Comment {
 			return false;
 		Comment other = (Comment) obj;
 		return Objects.equals(author, other.author) && Objects.equals(content, other.content)
-				&& Objects.equals(id, other.id) && Objects.equals(note, other.note)
-				&& Objects.equals(product, other.product) && Objects.equals(title, other.title);
+				&& Objects.equals(createdAt, other.createdAt) && Objects.equals(id, other.id)
+				&& Objects.equals(note, other.note) && Objects.equals(product, other.product)
+				&& Objects.equals(title, other.title);
 	}
-	
 	public void applyDTO(CommentInboundDTO dto)
 	{
 		this.setTitle(dto.getTitle());
 		this.setContent(dto.getContent());
 		this.setNote(dto.getNote());
 	}
-	public Comment(Long id, String title, String content, User author, Integer note, Product product) {
+	public Comment(Long id, String title, String content, User author, Integer note, Product product, Timestamp createdAt) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -90,12 +101,14 @@ public class Comment {
 		this.author = author;
 		this.note = note;
 		this.product = product;
+		this.createdAt = createdAt;
 	}
 	public Comment(CommentInboundDTO dto, User author, Product product)
 	{
 		this.applyDTO(dto);
 		this.setAuthor(author);
 		this.setProduct(product);
+		this.setCreatedAt(Timestamp.from(Instant.now()));
 	}
 	public Comment() {
 		super();

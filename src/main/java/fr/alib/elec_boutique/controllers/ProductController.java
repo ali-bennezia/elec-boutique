@@ -37,7 +37,7 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/products")
 public class ProductController {
 
-	private class Pair<KeyType, DataType>
+	public class Pair<KeyType, DataType>
 	{
 		private KeyType key;
 		private DataType data;
@@ -67,7 +67,7 @@ public class ProductController {
 	@Autowired
 	private UserService userService;
 
-	private Pair<User,Product> throwIfNotAdminOrOwner(Long productId) throws 
+	public static Pair<User,Product> throwIfNotAdminOrOwner(Long productId) throws 
 		IdNotFoundException,
 		IllegalArgumentException,
 		LackingAuthorizationsException
@@ -130,7 +130,7 @@ public class ProductController {
 	
 	@PutMapping("/{id}")
 	@PatchMapping("/{id}")
-	public ResponseEntity<?> editProduct(@PathVariable("id") Long id, ProductInboundDTO dto) throws 
+	public ResponseEntity<?> editProduct(@PathVariable("id") Long id, @RequestBody ProductInboundDTO dto) throws 
 		BadCredentialsException,
 		LackingAuthorizationsException,
 		IllegalArgumentException,
@@ -185,13 +185,19 @@ public class ProductController {
 	@ExceptionHandler(IllegalArgumentException.class)
 	public ResponseEntity<?> handleBadRequest()
 	{
-		return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 	}
 	
 	@ExceptionHandler(IdNotFoundException.class)
 	public ResponseEntity<?> handleNotFound()
 	{
 		return ResponseEntity.notFound().build();
+	}
+	
+	@ExceptionHandler(BadCredentialsException.class)
+	public ResponseEntity<?> handleUnauthorized()
+	{
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}
 	
 	@ExceptionHandler(LackingAuthorizationsException.class)
