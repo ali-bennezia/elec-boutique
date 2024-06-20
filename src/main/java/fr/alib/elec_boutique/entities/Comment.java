@@ -7,6 +7,9 @@ import java.util.Objects;
 import fr.alib.elec_boutique.dtos.inbound.CommentInboundDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -16,9 +19,12 @@ import jakarta.persistence.TemporalType;
 @Entity
 public class Comment {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String title;
 	private String content;
+	@ManyToOne(targetEntity = User.class)
 	private User author;
 	@Column(nullable = false, precision = 1, scale = 0)
 	private Integer note;

@@ -76,7 +76,7 @@ public class CommentController {
 	@DeleteMapping("/{commentId}")
 	public ResponseEntity<?> deleteComment( @PathVariable("id") Long productId, @PathVariable("commentId") Long commentId )
 	{
-		ProductController.throwIfNotAdminOrOwner(productId);
+		ProductController.throwIfNotAdminOrOwner(productService, productId);
 		this.commentService.removeCommentById(commentId);
 		return ResponseEntity.noContent().build();
 	}

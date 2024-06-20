@@ -4,11 +4,16 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -236,4 +241,56 @@ public class ProductService {
 		return this.productRepository.save(product);
 	}
 	
+	private final List<String> filterOptions = Arrays.asList( new String[] {
+			"page", "query", "userId", "categories", "miprice", "mxprice", "mieval", "mxeval", "sortby", "sortorder"
+	} );
+	
+	private final List<String> sortingOptions = Arrays.asList( new String[] {
+			"name", "price", "average_note"
+	} );
+
+	
+	/**
+	 * Searches for products.
+	 * @param params Query parameters.
+	 * @return Results.
+	 * @throws IllegalArgumentException
+	 */
+	public Page<Product> searchProducts(Map<String, String> params) throws IllegalArgumentException
+	{
+		for (String key : params.keySet()) {
+			if (!filterOptions.contains(key)) {
+				throw new IllegalArgumentException();
+			}
+		}
+		
+		String sortOption = params.get("sortby");
+		if (sortOption != null && !sortingOptions.contains(sortOption)) {
+			throw new IllegalArgumentException();
+		}
+		
+		Integer page = params.containsKey("page") ? Integer.valueOf( params.get("page") ) : 0;
+		Integer order = params.get("sortorder") == null ? 1 : -1;
+
+		Pageable pageable = PageRequest.of(
+				page, 
+				10, 
+				params.get("sortby") == null ? 
+						Sort.unsorted() : 
+						order == 1 ? Sort.by(params.get("sortby")).ascending() : Sort.by(params.get("sortby")).descending()
+				);
+		
+		Page<Product> products = this.productRepository.search(
+				params.get("query"),
+				params.get("userId"),
+				params.get("categories"),
+				Float.valueOf(params.get("miprice")),
+				Float.valueOf(params.get("mxprice")),
+				Float.valueOf(params.get("mieval")),
+				Float.valueOf(params.get("mxeval")),
+				pageable
+				);
+		
+		return products;
+	}
 }

@@ -70,6 +70,11 @@ public class User {
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "user_product_id", referencedColumnName = "id")
 	private List<Product> products = new ArrayList<Product>();
+	
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "user_comment_id", referencedColumnName = "id")
+	private List<Comment> comments = new ArrayList<Comment>();
+	
 	public Long getId() {
 		return id;
 	}
@@ -160,10 +165,16 @@ public class User {
 	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
+	public List<Comment> getComments() {
+		return comments;
+	}
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(address, businessAddress, businessName, cards, createdAt, email, enabled, firstName, id,
-				lastName, password, products, profilePhotoMedia, roles, username);
+		return Objects.hash(address, businessAddress, businessName, cards, comments, createdAt, email, enabled,
+				firstName, id, lastName, password, products, profilePhotoMedia, roles, username);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -176,10 +187,11 @@ public class User {
 		User other = (User) obj;
 		return Objects.equals(address, other.address) && Objects.equals(businessAddress, other.businessAddress)
 				&& Objects.equals(businessName, other.businessName) && Objects.equals(cards, other.cards)
-				&& Objects.equals(createdAt, other.createdAt) && Objects.equals(email, other.email)
-				&& Objects.equals(enabled, other.enabled) && Objects.equals(firstName, other.firstName)
-				&& Objects.equals(id, other.id) && Objects.equals(lastName, other.lastName)
-				&& Objects.equals(password, other.password) && Objects.equals(products, other.products)
+				&& Objects.equals(comments, other.comments) && Objects.equals(createdAt, other.createdAt)
+				&& Objects.equals(email, other.email) && Objects.equals(enabled, other.enabled)
+				&& Objects.equals(firstName, other.firstName) && Objects.equals(id, other.id)
+				&& Objects.equals(lastName, other.lastName) && Objects.equals(password, other.password)
+				&& Objects.equals(products, other.products)
 				&& Objects.equals(profilePhotoMedia, other.profilePhotoMedia) && Objects.equals(roles, other.roles)
 				&& Objects.equals(username, other.username);
 	}
@@ -206,7 +218,7 @@ public class User {
 	}
 	public User(Long id, String username, String email, String firstName, String lastName, String profilePhotoMedia,
 			String password, Boolean enabled, Timestamp createdAt, String roles, Address address, String businessName,
-			Address businessAddress, List<Card> cards, List<Product> products) {
+			Address businessAddress, List<Card> cards, List<Product> products, List<Comment> comments) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -223,6 +235,7 @@ public class User {
 		this.businessAddress = businessAddress;
 		this.cards = cards;
 		this.products = products;
+		this.comments = comments;
 	}
 	public User(UserRegisterInboundDTO dto, PasswordEncoder pwdEncoder, String roles, String profilePhotoMedia, Boolean enabled) {
 		super();

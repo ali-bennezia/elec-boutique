@@ -1,9 +1,11 @@
 package fr.alib.elec_boutique.controllers;
 
 import java.util.Arrays;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -24,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import fr.alib.elec_boutique.dtos.inbound.ProductInboundDTO;
 import fr.alib.elec_boutique.dtos.outbound.ProductOutboundDTO;
+import fr.alib.elec_boutique.dtos.outbound.ProductPageOutboundDTO;
 import fr.alib.elec_boutique.entities.Product;
 import fr.alib.elec_boutique.entities.User;
 import fr.alib.elec_boutique.exceptions.IdNotFoundException;
@@ -31,43 +34,20 @@ import fr.alib.elec_boutique.exceptions.LackingAuthorizationsException;
 import fr.alib.elec_boutique.services.CustomUserDetails;
 import fr.alib.elec_boutique.services.ProductService;
 import fr.alib.elec_boutique.services.UserService;
+import fr.alib.elec_boutique.utils.Pair;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
 
-	public class Pair<KeyType, DataType>
-	{
-		private KeyType key;
-		private DataType data;
-		public KeyType getKey() {
-			return key;
-		}
-		public void setKey(KeyType key) {
-			this.key = key;
-		}
-		public DataType getData() {
-			return data;
-		}
-		public void setData(DataType data) {
-			this.data = data;
-		}
-		
-		public Pair(KeyType key, DataType data) {
-			super();
-			this.key = key;
-			this.data = data;
-		}
-	}
-	
 	@Autowired
 	private ProductService productService;
 	
 	@Autowired
 	private UserService userService;
 
-	public static Pair<User,Product> throwIfNotAdminOrOwner(Long productId) throws 
+	public static Pair<User,Product> throwIfNotAdminOrOwner(ProductService productService, Long productId) throws 
 		IdNotFoundException,
 		IllegalArgumentException,
 		LackingAuthorizationsException
@@ -76,7 +56,7 @@ public class ProductController {
 		if (authentication == null) throw new BadCredentialsException("User isn't authenticated.");
 		CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 		User user = userDetails.getUser();
-		Product product = this.productService.getProductById(productId);
+		Product product = productService.getProductById(productId);
 		Boolean isProvider = user.getRoles().contains("ROLE_PROVIDER");
 		Boolean isAdmin = user.getRoles().contains("ROLE_ADMIN");
 		Boolean isOwner = product.getUser().getId().equals(user.getId());
@@ -120,7 +100,7 @@ public class ProductController {
 		IllegalArgumentException,
 		OptimisticLockingFailureException
 	{
-		Pair<User, Product> data = throwIfNotAdminOrOwner(id);
+		Pair<User, Product> data = throwIfNotAdminOrOwner(productService, id);
 		Product product = data.getData();
 		
 		this.productService.deleteProductById(product.getId());
@@ -136,7 +116,7 @@ public class ProductController {
 		IllegalArgumentException,
 		OptimisticLockingFailureException
 	{
-		throwIfNotAdminOrOwner(id);		
+		throwIfNotAdminOrOwner(productService, id);		
 		Product product = this.productService.patchProductById(id, dto);
 		
 		return ResponseEntity.ok( new ProductOutboundDTO(product) );
@@ -155,7 +135,7 @@ public class ProductController {
 			@RequestParam(name = "medias", required = true) MultipartFile[] medias
 			)
 	{
-		throwIfNotAdminOrOwner(id);
+		throwIfNotAdminOrOwner(productService, id);
 		this.productService.addProductMedias(id, medias);
 		return ResponseEntity.created(null).build();
 	}
@@ -163,7 +143,7 @@ public class ProductController {
 	@DeleteMapping("/{id}/medias")
 	public ResponseEntity<?> deleteProductMedias( @PathVariable("id") Long id )
 	{
-		throwIfNotAdminOrOwner(id);
+		throwIfNotAdminOrOwner(productService, id);
 		this.productService.deleteProductMedias(id);
 		return ResponseEntity.noContent().build();
 	}
@@ -171,9 +151,16 @@ public class ProductController {
 	@DeleteMapping("/{id}/medias/{media}")
 	public ResponseEntity<?> deleteProductMedia( @PathVariable("id") Long id, @PathVariable("media") String media )
 	{
-		throwIfNotAdminOrOwner(id);
+		throwIfNotAdminOrOwner(productService, id);
 		this.productService.deleteProductMedia(id, media);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping("")
+	public ResponseEntity<?> searchProducts( @RequestParam Map<String, String> params )
+	{
+		Page<Product> results = this.productService.searchProducts(params);
+		return ResponseEntity.ok(new ProductPageOutboundDTO( results ));
 	}
 	
 	@ExceptionHandler(OptimisticLockingFailureException.class)
