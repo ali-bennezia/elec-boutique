@@ -110,6 +110,14 @@ public class Card {
 		this.setAddress(new Address( dto.getAddress() ));	
 	}
 	
+	public void applyPatchDTO(CardInboundDTO dto, BytesEncryptor encryptor, EncryptionUtils encryptionUtils)
+	{
+		if (dto.getCode() != null) this.setCodeEncrypted( encryptor.encrypt(dto.getCode().getBytes(StandardCharsets.UTF_8) ) );
+		if (dto.getCcv() != null) this.setCcvEncrypted( encryptor.encrypt( dto.getCcv().getBytes(StandardCharsets.UTF_8) ) );
+		if (dto.getExpirationDateTime() != null) this.setExpirationDateTimeEncrypted( encryptor.encrypt( encryptionUtils.longToBytes( dto.getExpirationDateTime() ) ) );
+		if (dto.getAddress() != null) this.setAddress(new Address( dto.getAddress() ));	
+	}
+	
 	public Card(Long id, byte[] codeEncrypted, byte[] ccvEncrypted, byte[] expirationDateTimeEncrypted, User user,
 			Address address) {
 		super();

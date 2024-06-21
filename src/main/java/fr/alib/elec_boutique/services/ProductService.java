@@ -284,10 +284,10 @@ public class ProductService {
 				params.get("query"),
 				params.get("userId"),
 				params.get("categories"),
-				Float.valueOf(params.get("miprice")),
-				Float.valueOf(params.get("mxprice")),
-				Float.valueOf(params.get("mieval")),
-				Float.valueOf(params.get("mxeval")),
+				params.get("miprice") != null ? Float.valueOf(params.get("miprice")) : null,
+				params.get("mxprice") != null ? Float.valueOf(params.get("mxprice")) : null,
+				params.get("mieval") != null ? Float.valueOf(params.get("mieval")) : null,
+				params.get("mxeval") != null ? Float.valueOf(params.get("mxeval")) : null,
 				pageable
 				);
 		

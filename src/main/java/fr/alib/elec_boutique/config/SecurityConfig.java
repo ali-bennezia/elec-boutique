@@ -40,7 +40,7 @@ public class SecurityConfig {
 					"/api/users/profile",
 					"/api/users/cards",
 					"/api/users/cards/*",
-					"/api/products/:id/pay*",
+					"/api/products/*/pay/*",
 					"/api/users/invoices",
 					"/api/users/invoices/*"
 					)

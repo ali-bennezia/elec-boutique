@@ -34,6 +34,7 @@ import fr.alib.elec_boutique.exceptions.LackingAuthorizationsException;
 import fr.alib.elec_boutique.services.CustomUserDetails;
 import fr.alib.elec_boutique.services.ProductService;
 import fr.alib.elec_boutique.services.UserService;
+import fr.alib.elec_boutique.utils.ControllerUtils;
 import fr.alib.elec_boutique.utils.Pair;
 import jakarta.validation.Valid;
 
@@ -47,23 +48,7 @@ public class ProductController {
 	@Autowired
 	private UserService userService;
 
-	public static Pair<User,Product> throwIfNotAdminOrOwner(ProductService productService, Long productId) throws 
-		IdNotFoundException,
-		IllegalArgumentException,
-		LackingAuthorizationsException
-	{
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication == null) throw new BadCredentialsException("User isn't authenticated.");
-		CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-		User user = userDetails.getUser();
-		Product product = productService.getProductById(productId);
-		Boolean isProvider = user.getRoles().contains("ROLE_PROVIDER");
-		Boolean isAdmin = user.getRoles().contains("ROLE_ADMIN");
-		Boolean isOwner = product.getUser().getId().equals(user.getId());
-		if ( !isAdmin && !( isProvider && isOwner ) ) 
-			throw new LackingAuthorizationsException("User doesn't posess necessary authorizations.");
-		return new Pair<User, Product>(user, product);
-	}
+
 	
 	@PostMapping("")
 	public ResponseEntity<?> postProduct(
@@ -100,7 +85,7 @@ public class ProductController {
 		IllegalArgumentException,
 		OptimisticLockingFailureException
 	{
-		Pair<User, Product> data = throwIfNotAdminOrOwner(productService, id);
+		Pair<User, Product> data = ControllerUtils.throwIfNotAdminOrProductOwner(productService, id);
 		Product product = data.getData();
 		
 		this.productService.deleteProductById(product.getId());
@@ -116,7 +101,7 @@ public class ProductController {
 		IllegalArgumentException,
 		OptimisticLockingFailureException
 	{
-		throwIfNotAdminOrOwner(productService, id);		
+		ControllerUtils.throwIfNotAdminOrProductOwner(productService, id);		
 		Product product = this.productService.patchProductById(id, dto);
 		
 		return ResponseEntity.ok( new ProductOutboundDTO(product) );
@@ -135,7 +120,7 @@ public class ProductController {
 			@RequestParam(name = "medias", required = true) MultipartFile[] medias
 			)
 	{
-		throwIfNotAdminOrOwner(productService, id);
+		ControllerUtils.throwIfNotAdminOrProductOwner(productService, id);
 		this.productService.addProductMedias(id, medias);
 		return ResponseEntity.created(null).build();
 	}
@@ -143,7 +128,7 @@ public class ProductController {
 	@DeleteMapping("/{id}/medias")
 	public ResponseEntity<?> deleteProductMedias( @PathVariable("id") Long id )
 	{
-		throwIfNotAdminOrOwner(productService, id);
+		ControllerUtils.throwIfNotAdminOrProductOwner(productService, id);
 		this.productService.deleteProductMedias(id);
 		return ResponseEntity.noContent().build();
 	}
@@ -151,7 +136,7 @@ public class ProductController {
 	@DeleteMapping("/{id}/medias/{media}")
 	public ResponseEntity<?> deleteProductMedia( @PathVariable("id") Long id, @PathVariable("media") String media )
 	{
-		throwIfNotAdminOrOwner(productService, id);
+		ControllerUtils.throwIfNotAdminOrProductOwner(productService, id);
 		this.productService.deleteProductMedia(id, media);
 		return ResponseEntity.noContent().build();
 	}

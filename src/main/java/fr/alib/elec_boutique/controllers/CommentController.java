@@ -30,6 +30,7 @@ import fr.alib.elec_boutique.exceptions.LackingAuthorizationsException;
 import fr.alib.elec_boutique.services.CommentService;
 import fr.alib.elec_boutique.services.CustomUserDetails;
 import fr.alib.elec_boutique.services.ProductService;
+import fr.alib.elec_boutique.utils.ControllerUtils;
 import jakarta.validation.Valid;
 
 @RestController
@@ -76,7 +77,7 @@ public class CommentController {
 	@DeleteMapping("/{commentId}")
 	public ResponseEntity<?> deleteComment( @PathVariable("id") Long productId, @PathVariable("commentId") Long commentId )
 	{
-		ProductController.throwIfNotAdminOrOwner(productService, productId);
+		ControllerUtils.throwIfNotAdminOrProductOwner(productService, productId);
 		this.commentService.removeCommentById(commentId);
 		return ResponseEntity.noContent().build();
 	}

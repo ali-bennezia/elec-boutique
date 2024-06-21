@@ -90,6 +90,19 @@ public class CardService {
 	}
 	
 	/**
+	 * Fetches a card by its id.
+	 * @param id The card's id.
+	 * @return The card entity.
+	 * @throws IllegalArgumentException
+	 */
+	public Card getCardById(Long id) throws IllegalArgumentException
+	{
+		Optional<Card> result = this.cardRepository.findById(id);
+		if (result.isEmpty()) throw new IdNotFoundException("Couldn't find card with id '" + id + "'.");
+		return result.get();
+	}
+	
+	/**
 	 * Deletes a card by its id.
 	 * @param id The card's id.
 	 * @throws IllegalArgumentException If argument is invalid.
@@ -98,5 +111,20 @@ public class CardService {
 	public void deleteCardById(Long id) throws IllegalArgumentException
 	{
 		this.cardRepository.deleteById(id);
+	}
+	
+	/**
+	 * Patches a card by its id.
+	 * @param id The card id.
+	 * @param dto The DTO.
+	 * @return The modified card entity.
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	public Card patchCardById(Long id, CardInboundDTO dto)
+	{
+		Card card = this.getCardById(id);
+		card.applyPatchDTO(dto, bytesEncryptor, encryptionUtils);
+		card = this.cardRepository.save(card);
+		return card;
 	}
 }
