@@ -3,6 +3,7 @@ package fr.alib.elec_boutique.entities;
 import java.util.Objects;
 
 import fr.alib.elec_boutique.entities.embedded.PaymentData;
+import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,7 +15,6 @@ import jakarta.persistence.Table;
 @Table
 @Entity
 public class Invoice {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -24,6 +24,8 @@ public class Invoice {
 	private User user;
 	@ManyToOne(targetEntity = Product.class)
 	private Product product;
+	@Column(nullable = false, precision = 12)
+	private Float price;
 	
 	public Long getId() {
 		return id;
@@ -49,20 +51,27 @@ public class Invoice {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
-
-	public Invoice(Long id, PaymentData paymentData, User user, Product product) {
+	public Float getPrice() {
+		return price;
+	}
+	public void setPrice(Float price) {
+		this.price = price;
+	}
+	
+	public Invoice(Long id, PaymentData paymentData, User user, Product product, Float price) {
 		super();
 		this.id = id;
 		this.paymentData = paymentData;
 		this.user = user;
 		this.product = product;
+		this.price = price;
 	}
 	public Invoice() {
 		super();
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, paymentData, product, user);
+		return Objects.hash(id, paymentData, price, product, user);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -74,6 +83,7 @@ public class Invoice {
 			return false;
 		Invoice other = (Invoice) obj;
 		return Objects.equals(id, other.id) && Objects.equals(paymentData, other.paymentData)
-				&& Objects.equals(product, other.product) && Objects.equals(user, other.user);
+				&& Objects.equals(price, other.price) && Objects.equals(product, other.product)
+				&& Objects.equals(user, other.user);
 	}	
 }
