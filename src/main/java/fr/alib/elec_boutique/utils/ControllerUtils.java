@@ -5,12 +5,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import fr.alib.elec_boutique.entities.Card;
+import fr.alib.elec_boutique.entities.Invoice;
 import fr.alib.elec_boutique.entities.Product;
 import fr.alib.elec_boutique.entities.User;
 import fr.alib.elec_boutique.exceptions.IdNotFoundException;
 import fr.alib.elec_boutique.exceptions.LackingAuthorizationsException;
 import fr.alib.elec_boutique.services.CardService;
 import fr.alib.elec_boutique.services.CustomUserDetails;
+import fr.alib.elec_boutique.services.InvoiceService;
 import fr.alib.elec_boutique.services.ProductService;
 
 public class ControllerUtils {
@@ -43,6 +45,7 @@ public class ControllerUtils {
 	
 	public static Pair<CustomUserDetails, Card> throwIfNotAuthenticatedOrNotCardOwner(CardService cardService, Long cardId) throws 
 		BadCredentialsException,
+		IllegalArgumentException,
 		LackingAuthorizationsException
 	{
 		CustomUserDetails userDetails = throwIfNotAuthenticated();
@@ -51,6 +54,19 @@ public class ControllerUtils {
 			throw new LackingAuthorizationsException("User isn't the card owner.");
 		}
 		return new Pair<CustomUserDetails, Card>(userDetails, card);
+	}
+	
+	public static Pair<CustomUserDetails, Invoice> throwIfNotAuthenticatedOrNotInvoiceOwner(InvoiceService invoiceService, Long invoiceId) throws 
+		BadCredentialsException,
+		IllegalArgumentException,
+		LackingAuthorizationsException
+	{
+		CustomUserDetails userDetails = throwIfNotAuthenticated();
+		Invoice invoice = invoiceService.getInvoiceById(invoiceId);
+		if (!invoice.getUser().getId().equals(userDetails.getUser().getId())) {
+			throw new LackingAuthorizationsException("User isn't the invoice owner.");
+		}
+		return new Pair<CustomUserDetails, Invoice>(userDetails, invoice);
 	}
 	
 }
