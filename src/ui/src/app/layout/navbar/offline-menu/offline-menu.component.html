@@ -1,0 +1,29 @@
+<div
+  class="offline-menu"
+  mat-icon-button
+  [matMenuTriggerFor]="menu"
+  #menuTrigger="matMenuTrigger"
+  (mouseenter)="menuTrigger.openMenu()"
+>
+  <ng-icon name="ionPersonOutline" size="26"></ng-icon>
+  <ul>
+    <li>Actuellement non connecté(e)</li>
+    <li><b>Se connecter</b> ou <b>s'enregistrer</b></li>
+  </ul>
+</div>
+<mat-menu #menu="matMenu" [overlapTrigger]="false">
+  <span (mouseleave)="menuTrigger.closeMenu()">
+    <a [routerLink]="['connexion']" ariaCurrentWhenActive="page">
+      <button mat-menu-item>
+        <mat-icon>login</mat-icon>
+        <span>Se connecter</span>
+      </button>
+    </a>
+    <a [routerLink]="['inscription']" ariaCurrentWhenActive="page">
+      <button mat-menu-item>
+        <mat-icon>person_add</mat-icon>
+        <span>Créer un compte</span>
+      </button>
+    </a>
+  </span>
+</mat-menu>

@@ -1,0 +1,37 @@
+<mat-toolbar class="navbar">
+  <mat-toolbar-row>
+    <img
+      src="/assets/images/elecboutique_icone.png"
+      srcset="
+        /assets/images/elecboutique_icone.png       800w,
+        /assets/images/elecboutique_icone_small.png 512w
+      "
+      sizes="(min-width: 1200px) 800px, 512px"
+      style="max-height: 80%"
+    />
+
+    <form class="query-form">
+      <select>
+        <option selected="selected">Toutes les catégories</option>
+      </select>
+      <input
+        type="search"
+        class="query-input"
+        placeholder="Chercher des articles ..."
+        matInput
+      />
+    </form>
+    <div>
+      <a mat-button>À propos</a>
+      <a mat-button>Test 2</a>
+    </div>
+    <span class="spacer"></span>
+    <app-offline-menu></app-offline-menu>
+  </mat-toolbar-row>
+  <mat-toolbar-row class="navbar-secondary">
+    <div>
+      <a mat-button>Bureautique</a>
+      <a mat-button>FPGAs</a>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>

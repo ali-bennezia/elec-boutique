@@ -11,9 +11,27 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { NavbarComponent } from './layout/navbar/navbar.component';
+import { FooterComponent } from './layout/footer/footer.component';
+import { MatMenuModule } from '@angular/material/menu';
+
+import { OfflineMenuComponent } from './layout/navbar/offline-menu/offline-menu.component';
+import { SigninPageComponent } from './page/user/signin-page/signin-page.component';
+import { RegisterPageComponent } from './page/user/register-page/register-page.component';
+import { RouterModule } from '@angular/router';
+import APP_ROUTES from './routing/routes';
+import { HomePageComponent } from './page/home-page/home-page.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+    NavbarComponent,
+    FooterComponent,
+    OfflineMenuComponent,
+    SigninPageComponent,
+    RegisterPageComponent,
+    HomePageComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -21,7 +39,9 @@ import { MatInputModule } from '@angular/material/input';
     MatIconModule,
     MatButtonModule,
     MatInputModule,
+    MatMenuModule,
     NgIconsModule.withIcons({ ionPersonOutline }),
+    RouterModule.forRoot(APP_ROUTES),
   ],
   providers: [],
   bootstrap: [AppComponent],

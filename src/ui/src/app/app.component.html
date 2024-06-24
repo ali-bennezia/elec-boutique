@@ -1,53 +1,5 @@
-<mat-toolbar class="navbar">
-  <mat-toolbar-row>
-    <img
-      src="/assets/images/elecboutique_icone.png"
-      srcset="
-        /assets/images/elecboutique_icone.png       800w,
-        /assets/images/elecboutique_icone_small.png 512w
-      "
-      sizes="(min-width: 1200px) 800px, 512px"
-      style="max-height: 80%"
-    />
-
-    <form class="query-form">
-      <select>
-        <option selected="selected">Toutes les catégories</option>
-      </select>
-      <input
-        type="search"
-        class="query-input"
-        placeholder="Chercher des articles ..."
-        matInput
-      />
-    </form>
-    <div>
-      <a mat-button>À propos</a>
-      <a mat-button>Test 2</a>
-    </div>
-    <span class="spacer"></span>
-    <div>
-      <ng-icon
-        name="ionPersonOutline"
-        size="26"
-        style="display: inline"
-      ></ng-icon>
-      <ul style="display: inline; font-size: 14px; width: auto">
-        <li style="display: inline-block">Actuellement pas connecté(e)</li>
-        <li style="display: inline-block">Se connecter ou s'enregistrer</li>
-      </ul>
-    </div>
-  </mat-toolbar-row>
-  <mat-toolbar-row class="navbar-secondary">
-    <div>
-      <a mat-button>Bureautique</a>
-      <a mat-button>FPGAs</a>
-    </div>
-  </mat-toolbar-row>
-</mat-toolbar>
+<app-navbar></app-navbar>
 <div class="page-content">
-  <p>test</p>
+  <router-outlet></router-outlet>
 </div>
-<mat-toolbar>
-  <mat-toolbar-row> </mat-toolbar-row>
-</mat-toolbar>
+<app-footer></app-footer>
