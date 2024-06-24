@@ -34,6 +34,7 @@ body {
 
 .query-form > input[type="search"] {
   padding: 16px;
+  width: 460px;
 }
 
 .query-form > select {

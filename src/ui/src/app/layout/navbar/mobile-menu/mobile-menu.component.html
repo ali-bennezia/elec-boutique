@@ -1,0 +1,21 @@
+<button
+  mat-icon-button
+  [matMenuTriggerFor]="menu"
+  aria-label="Example icon-button with a menu"
+>
+  <mat-icon>more_vert</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+  <a [routerLink]="['apropos']" ariaCurrentWhenActive="page">
+    <button mat-menu-item>
+      <mat-icon>info</mat-icon>
+      <span>À propos</span>
+    </button>
+  </a>
+  <a [routerLink]="['politique-confidentialite']" ariaCurrentWhenActive="page">
+    <button mat-menu-item>
+      <mat-icon>policy</mat-icon>
+      <span>Politique de confidentialité</span>
+    </button>
+  </a>
+</mat-menu>

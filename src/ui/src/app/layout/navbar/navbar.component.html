@@ -2,13 +2,21 @@
   <mat-toolbar-row>
     <img
       src="/assets/images/elecboutique_icone.png"
-      srcset="
-        /assets/images/elecboutique_icone.png       800w,
-        /assets/images/elecboutique_icone_small.png 512w
-      "
-      sizes="(min-width: 1200px) 800px, 512px"
       style="max-height: 80%"
+      fxShow="true"
+      fxHide.lt-md="true"
     />
+    <img
+      src="/assets/images/elecboutique_icone_small.png"
+      style="max-height: 80%"
+      fxShow="true"
+      fxHide.gt-sm="true"
+    />
+    <app-mobile-menu
+      fxShow="true"
+      fxHide.gt-sm="true"
+      style="margin-left: 8px"
+    ></app-mobile-menu>
 
     <form class="query-form">
       <select>
@@ -19,11 +27,20 @@
         class="query-input"
         placeholder="Chercher des articles ..."
         matInput
+        fxShow="true"
+        fxFlex.lt-xl="251px"
       />
     </form>
-    <div>
-      <a mat-button>À propos</a>
-      <a mat-button>Test 2</a>
+    <div fxShow="true" fxHide.lt-lg="true">
+      <a mat-button [routerLink]="['apropos']" ariaCurrentWhenActive="page"
+        >À propos</a
+      >
+      <a
+        mat-button
+        [routerLink]="['politique-confidentialite']"
+        ariaCurrentWhenActive="page"
+        >Politique de confidentialité</a
+      >
     </div>
     <span class="spacer"></span>
     <app-offline-menu></app-offline-menu>

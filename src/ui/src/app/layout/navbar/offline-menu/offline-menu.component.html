@@ -4,9 +4,11 @@
   [matMenuTriggerFor]="menu"
   #menuTrigger="matMenuTrigger"
   (mouseenter)="menuTrigger.openMenu()"
+  fxShow="true"
+  fxFlex.lt-lg="58px"
 >
   <ng-icon name="ionPersonOutline" size="26"></ng-icon>
-  <ul>
+  <ul fxShow="true" fxHide.lt-lg="true">
     <li>Actuellement non connecté(e)</li>
     <li><b>Se connecter</b> ou <b>s'enregistrer</b></li>
   </ul>
