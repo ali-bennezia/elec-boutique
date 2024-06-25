@@ -87,7 +87,8 @@ form.auth-form {
 
 form.auth-form > div.auth-form-layout {
   display: flex;
-  flex-direction: row;
+  /*flex-direction: row;*/
+  align-items: baseline;
   justify-content: space-between;
 }
 

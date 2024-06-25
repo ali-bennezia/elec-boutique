@@ -32,6 +32,7 @@ import { NotFoundPageComponent } from './page/not-found-page/not-found-page.comp
 import { MobileMenuComponent } from './layout/navbar/mobile-menu/mobile-menu.component';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatInputModule,
     MatMenuModule,
     MatCheckboxModule,
+    MatSnackBarModule,
     NgIconsModule.withIcons({ ionPersonOutline }),
     RouterModule.forRoot(APP_ROUTES),
     FormsModule,

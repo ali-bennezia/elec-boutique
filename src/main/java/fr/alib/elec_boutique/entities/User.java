@@ -204,7 +204,7 @@ public class User {
 		this.setPassword( pwdEncoder.encode( dto.getPassword() ));
 		this.setAddress( new Address( dto.getAddress() ) );
 		this.setBusinessName(dto.getBusinessName());
-		this.setBusinessAddress( new Address(dto.getBusinessAddress()) );
+		this.setBusinessAddress( dto.getBusinessAddress() != null ? new Address(dto.getBusinessAddress()) : null );
 	}
 	public void applyProfilePatchDTO(UserProfileInboundDTO dto, PasswordEncoder pwdEncoder)
 	{

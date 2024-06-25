@@ -1,4 +1,4 @@
 .page-content {
-  height: 90vh;
+  min-height: 90vh;
   background-color: rgb(238, 238, 238);
 }
