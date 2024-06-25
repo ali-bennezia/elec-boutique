@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from 'src/app/service/auth.service';
 import { SearchService } from 'src/app/service/search.service';
 import { APP_CATEGORIES } from 'src/app/service/search.service';
 
@@ -9,7 +10,10 @@ import { APP_CATEGORIES } from 'src/app/service/search.service';
 })
 export class NavbarComponent {
   public categories: string[][] = APP_CATEGORIES;
-  constructor(public searchService: SearchService) {}
+  constructor(
+    public searchService: SearchService,
+    public authService: AuthService
+  ) {}
 
   onSearchSubmit(e: Event) {
     e.preventDefault();

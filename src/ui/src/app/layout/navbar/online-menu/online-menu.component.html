@@ -1,0 +1,28 @@
+<div
+  class="online-menu"
+  mat-icon-button
+  [matMenuTriggerFor]="menu"
+  #menuTrigger="matMenuTrigger"
+  (mouseenter)="menuTrigger.openMenu()"
+  fxShow="true"
+  fxFlex.lt-lg="58px"
+>
+  <div class="avatar-container"></div>
+  <ul fxShow="true" fxHide.lt-lg="true">
+    <li>Bienvenue,</li>
+    <li>
+      <b>{{ authService.session?.username }}</b> !
+    </li>
+  </ul>
+  <ng-icon name="ionMenuOutline" size="26"></ng-icon>
+</div>
+<mat-menu #menu="matMenu" [overlapTrigger]="false">
+  <span (mouseleave)="menuTrigger.closeMenu()">
+    <a [routerLink]="['connexion']" ariaCurrentWhenActive="page">
+      <button mat-menu-item (click)="onClickLogout($event)">
+        <mat-icon>logout</mat-icon>
+        <span>Se déconnecter</span>
+      </button>
+    </a>
+  </span>
+</mat-menu>

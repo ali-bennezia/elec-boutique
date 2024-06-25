@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgIconsModule } from '@ng-icons/core';
-import { ionPersonOutline } from '@ng-icons/ionicons';
+import { ionMenuOutline, ionPersonOutline } from '@ng-icons/ionicons';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -33,6 +33,7 @@ import { MobileMenuComponent } from './layout/navbar/mobile-menu/mobile-menu.com
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { OnlineMenuComponent } from './layout/navbar/online-menu/online-menu.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     PrivacyPolicyPageComponent,
     NotFoundPageComponent,
     MobileMenuComponent,
+    OnlineMenuComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,7 +62,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatMenuModule,
     MatCheckboxModule,
     MatSnackBarModule,
-    NgIconsModule.withIcons({ ionPersonOutline }),
+    NgIconsModule.withIcons({ ionPersonOutline, ionMenuOutline }),
     RouterModule.forRoot(APP_ROUTES),
     FormsModule,
     ReactiveFormsModule,

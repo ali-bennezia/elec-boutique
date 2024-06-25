@@ -76,12 +76,12 @@ public class UserService implements UserDetailsService {
 	{
 		Optional<User> usr = this.userRepository.findUserByUsernameOrEmail(null, dto.getEmail());
 		Long signInTime = TimeUtils.getNowUnixEpochMilis();
-		Long expiresTime = TimeUtils.getNowUnixEpochMilis() + jwtUtils.getExpirationTime();
+		Long expiresTime = TimeUtils.getNowUnixEpochMilis() + (dto.getRememberMe() ? jwtUtils.getLongExpirationTime() : jwtUtils.getExpirationTime());
 
 		if (usr.isPresent() && pwdEncoder.matches(dto.getPassword(), usr.get().getPassword()) && usr.get().getEnabled())
 		{
 			return new AuthenticationSessionOutboundDTO(
-					this.jwtUtils.generateToken(usr.get().getUsername()),
+					this.jwtUtils.generateToken(usr.get().getUsername(), dto.getRememberMe()),
 					usr.get().getUsername(),
 					usr.get().getId().toString(),
 					usr.get().getEmail(),

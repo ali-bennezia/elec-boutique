@@ -60,7 +60,12 @@
       >
     </div>
     <span class="spacer"></span>
-    <app-offline-menu></app-offline-menu>
+    <app-offline-menu
+      *ngIf="authService.isAnonymous; else onlineMenuBlock"
+    ></app-offline-menu>
+    <ng-template #onlineMenuBlock>
+      <app-online-menu></app-online-menu>
+    </ng-template>
   </mat-toolbar-row>
   <mat-toolbar-row
     fxShow="false"

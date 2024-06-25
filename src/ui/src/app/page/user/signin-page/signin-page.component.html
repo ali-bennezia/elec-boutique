@@ -1,1 +1,39 @@
-<p>signin-page works!</p>
+<form
+  class="auth-form"
+  [formGroup]="group"
+  (ngSubmit)="onSubmit($event)"
+  style="max-width: 600px"
+>
+  <h1>Se connecter</h1>
+  <div
+    class="auth-form-layout"
+    fxLayout="column"
+    fxLayoutAlign="space-between center"
+  >
+    <div>
+      <h2>Informations de connexion</h2>
+
+      <mat-form-field>
+        <mat-label>Adresse e-mail</mat-label>
+        <input matInput type="email" formControlName="email" />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Mot de passe</mat-label>
+        <input matInput type="password" formControlName="password" />
+      </mat-form-field>
+
+      <mat-checkbox formControlName="rememberMe"
+        >Se souvenir de moi</mat-checkbox
+      >
+    </div>
+  </div>
+  <button
+    mat-stroked-button
+    type="submit"
+    style="left: 50%; transform: translateX(-50%)"
+    [disabled]="group.invalid || this.loading"
+  >
+    Envoyer
+  </button>
+</form>

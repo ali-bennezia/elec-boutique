@@ -118,7 +118,11 @@ export class AuthService {
           } else return of(resp);
         }),
         tap((resp) => {
-          this._session = resp.data;
+          if (resp.success) {
+            this._session = resp.data;
+          } else {
+            this._session = null;
+          }
           this.saveSession();
         })
       );

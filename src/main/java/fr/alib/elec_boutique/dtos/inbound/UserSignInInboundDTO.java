@@ -13,6 +13,7 @@ public class UserSignInInboundDTO {
 	@NotEmpty
 	@Size(min = 8, max = 128)
 	private String password;
+	private Boolean rememberMe;
 	
 	public String getEmail() {
 		return email;
@@ -26,9 +27,16 @@ public class UserSignInInboundDTO {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	public Boolean getRememberMe() {
+		return rememberMe;
+	}
+	public void setRememberMe(Boolean rememberMe) {
+		this.rememberMe = rememberMe;
+	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(email, password);
+		return Objects.hash(email, password, rememberMe);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -39,7 +47,9 @@ public class UserSignInInboundDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		UserSignInInboundDTO other = (UserSignInInboundDTO) obj;
-		return Objects.equals(email, other.email) && Objects.equals(password, other.password);
+		return Objects.equals(email, other.email) && Objects.equals(password, other.password)
+				&& Objects.equals(rememberMe, other.rememberMe);
 	}
+
 	
 }

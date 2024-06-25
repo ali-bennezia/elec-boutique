@@ -21,16 +21,18 @@ public class JWTUtils {
 	@Value("${jwt.secret-key}")
 	private String secretKey;
 	private final long expirationTime = 864_000_000;
+	private final long longExpirationTime = 864_000_000*3;
+	
 	
 	private SecretKey getSigningKey() {
 		byte[] keyBytes = Decoders.BASE64.decode(this.secretKey);
 		return Keys.hmacShaKeyFor(keyBytes);
 	}
 
-	public String generateToken(String username) {
+	public String generateToken(String username, Boolean rememberMe) {
 		return Jwts.builder()
 				.subject(username)
-				.expiration(new Date(System.currentTimeMillis() + expirationTime))
+				.expiration(new Date(System.currentTimeMillis() + (rememberMe ? longExpirationTime : expirationTime)))
 				.signWith(getSigningKey())
 				.compact();
 	}
@@ -48,5 +50,8 @@ public class JWTUtils {
 
 	public long getExpirationTime() {
 		return expirationTime;
+	}
+	public long getLongExpirationTime() {
+		return longExpirationTime;
 	}
 }
