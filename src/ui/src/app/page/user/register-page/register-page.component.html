@@ -1,81 +1,89 @@
-<form class="auth-form">
+<form class="auth-form" [formGroup]="group">
   <h1>Formulaire d'inscription</h1>
   <div class="auth-form-layout">
     <div>
       <h2>Informations de votre compte</h2>
       <mat-form-field>
         <mat-label>Nom d'utilisateur</mat-label>
-        <input matInput />
+        <input matInput formControlName="username" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Adresse e-mail</mat-label>
-        <input matInput type="email" />
+        <input matInput type="email" formControlName="email" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Prénom</mat-label>
-        <input matInput />
+        <input matInput formControlName="firstName" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Nom de famille</mat-label>
-        <input matInput />
+        <input matInput formControlName="lastName" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Mot de passe</mat-label>
-        <input matInput type="password" />
+        <input matInput type="password" formControlName="password" />
       </mat-form-field>
-      <mat-checkbox>Vous êtes un fournisseur de produits</mat-checkbox>
-      <mat-checkbox>Accepter les conditions d'utilisation</mat-checkbox>
+      <mat-checkbox
+        formControlName="isProvider"
+        (change)="onToggleIsProvider($event.checked)"
+        >Vous êtes un fournisseur de produits</mat-checkbox
+      >
+      <mat-checkbox formControlName="acceptLegals"
+        >Accepter les conditions d'utilisation</mat-checkbox
+      >
     </div>
 
-    <div>
+    <div formGroupName="address">
       <h2>Adresse personnelle</h2>
       <mat-form-field>
         <mat-label>Rue</mat-label>
-        <input matInput />
+        <input matInput formControlName="street" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Ville</mat-label>
-        <input matInput />
+        <input matInput formControlName="city" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Code postal</mat-label>
-        <input matInput />
+        <input matInput formControlName="zipCode" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Pays</mat-label>
-        <input matInput />
+        <input matInput formControlName="country" />
       </mat-form-field>
     </div>
-
-    <div>
+    <div [ngClass]="{ 'auth-form-disabled': !group.get('isProvider')!.value }">
       <h2>Informations de fournisseur</h2>
       <mat-form-field>
         <mat-label>Nom public de l'entreprise</mat-label>
-        <input matInput />
+        <input matInput formControlName="businessName" />
       </mat-form-field>
       <h3>Domiciliation de l'entreprise</h3>
-      <mat-form-field>
-        <mat-label>Rue</mat-label>
-        <input matInput />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Ville</mat-label>
-        <input matInput />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Code postal</mat-label>
-        <input matInput />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Pays</mat-label>
-        <input matInput />
-      </mat-form-field>
+      <span formGroupName="businessAddress">
+        <mat-form-field>
+          <mat-label>Rue</mat-label>
+          <input matInput formControlName="street" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Ville</mat-label>
+          <input matInput formControlName="city" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Code postal</mat-label>
+          <input matInput formControlName="zipCode" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Pays</mat-label>
+          <input matInput formControlName="country" />
+        </mat-form-field>
+      </span>
     </div>
   </div>
   <button
     mat-stroked-button
     type="submit"
     style="left: 50%; transform: translateX(-50%)"
+    [disabled]="group.invalid"
   >
     Envoyer
   </button>

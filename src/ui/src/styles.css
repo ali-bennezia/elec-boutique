@@ -97,12 +97,28 @@ form.auth-form > h1 {
 
 form.auth-form > div.auth-form-layout > div {
   max-width: 360px;
+  margin: 8px;
 }
 
 form.auth-form > div.auth-form-layout > div > * {
   width: 100%;
 }
 
+form.auth-form > div.auth-form-layout > div > span > * {
+  width: 100%;
+}
+
 form.auth-form button[type="submit"] {
   width: 180px;
+}
+
+.auth-form-disabled {
+  opacity: 0.5;
+  pointer-events: none !important;
+  user-select: none !important;
+}
+
+.auth-form-disabled * {
+  pointer-events: none;
+  user-select: none;
 }
