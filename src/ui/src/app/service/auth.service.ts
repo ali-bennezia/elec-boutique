@@ -23,6 +23,28 @@ export class AuthService {
 
   private _session: AuthSessionInboundDto | null = null;
 
+  public get session(): AuthSessionInboundDto | null {
+    return this._session;
+  }
+
+  public get isAnonymous(): boolean {
+    return !this.isAuthenticated;
+  }
+
+  public get isAuthenticated(): boolean {
+    return this._session != null;
+  }
+
+  public get isAdmin(): boolean {
+    return this.hasRole('ROLE_ADMIN');
+  }
+
+  hasRole(role: string) {
+    return (
+      (this.isAuthenticated && this.session?.roles?.includes(role)) ?? false
+    );
+  }
+
   fetchSession() {
     let s: string | null = localStorage.getItem('session');
     if (s != null) {

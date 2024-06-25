@@ -1,1 +1,82 @@
-<p>register-page works!</p>
+<form class="auth-form">
+  <h1>Formulaire d'inscription</h1>
+  <div class="auth-form-layout">
+    <div>
+      <h2>Informations de votre compte</h2>
+      <mat-form-field>
+        <mat-label>Nom d'utilisateur</mat-label>
+        <input matInput />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Adresse e-mail</mat-label>
+        <input matInput type="email" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Prénom</mat-label>
+        <input matInput />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Nom de famille</mat-label>
+        <input matInput />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Mot de passe</mat-label>
+        <input matInput type="password" />
+      </mat-form-field>
+      <mat-checkbox>Vous êtes un fournisseur de produits</mat-checkbox>
+      <mat-checkbox>Accepter les conditions d'utilisation</mat-checkbox>
+    </div>
+
+    <div>
+      <h2>Adresse personnelle</h2>
+      <mat-form-field>
+        <mat-label>Rue</mat-label>
+        <input matInput />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Ville</mat-label>
+        <input matInput />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Code postal</mat-label>
+        <input matInput />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Pays</mat-label>
+        <input matInput />
+      </mat-form-field>
+    </div>
+
+    <div>
+      <h2>Informations de fournisseur</h2>
+      <mat-form-field>
+        <mat-label>Nom public de l'entreprise</mat-label>
+        <input matInput />
+      </mat-form-field>
+      <h3>Domiciliation de l'entreprise</h3>
+      <mat-form-field>
+        <mat-label>Rue</mat-label>
+        <input matInput />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Ville</mat-label>
+        <input matInput />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Code postal</mat-label>
+        <input matInput />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Pays</mat-label>
+        <input matInput />
+      </mat-form-field>
+    </div>
+  </div>
+  <button
+    mat-stroked-button
+    type="submit"
+    style="left: 50%; transform: translateX(-50%)"
+  >
+    Envoyer
+  </button>
+</form>

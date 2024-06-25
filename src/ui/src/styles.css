@@ -71,4 +71,38 @@ ng-icon {
 
 div.mat-mdc-menu-panel {
   background-color: rgb(16, 18, 29);
+  color: white;
+}
+
+div.mat-mdc-menu-content *,
+div.mat-mdc-menu-content .mat-icon-no-color {
+  color: white;
+}
+
+form.auth-form {
+  margin: 0 auto;
+  padding-top: 32px;
+  max-width: 70%;
+}
+
+form.auth-form > div.auth-form-layout {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+form.auth-form > h1 {
+  text-align: center;
+}
+
+form.auth-form > div.auth-form-layout > div {
+  max-width: 360px;
+}
+
+form.auth-form > div.auth-form-layout > div > * {
+  width: 100%;
+}
+
+form.auth-form button[type="submit"] {
+  width: 180px;
 }

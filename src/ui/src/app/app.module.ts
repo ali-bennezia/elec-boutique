@@ -16,6 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 import { NavbarComponent } from './layout/navbar/navbar.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { OfflineMenuComponent } from './layout/navbar/offline-menu/offline-menu.component';
 import { SigninPageComponent } from './page/user/signin-page/signin-page.component';
@@ -29,6 +30,8 @@ import { AboutPageComponent } from './page/legal/about-page/about-page.component
 import { PrivacyPolicyPageComponent } from './page/legal/privacy-policy-page/privacy-policy-page.component';
 import { NotFoundPageComponent } from './page/not-found-page/not-found-page.component';
 import { MobileMenuComponent } from './layout/navbar/mobile-menu/mobile-menu.component';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -54,10 +57,18 @@ import { MobileMenuComponent } from './layout/navbar/mobile-menu/mobile-menu.com
     MatButtonModule,
     MatInputModule,
     MatMenuModule,
+    MatCheckboxModule,
     NgIconsModule.withIcons({ ionPersonOutline }),
     RouterModule.forRoot(APP_ROUTES),
+    FormsModule,
+    ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { appearance: 'outline' },
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
