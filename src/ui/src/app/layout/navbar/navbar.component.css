@@ -5,3 +5,45 @@ mat-toolbar {
 .navbar-secondary {
   background-color: rgb(23, 25, 39);
 }
+
+.query-form-secondary {
+  margin: 8px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.query-form-secondary > * {
+  height: 44px;
+  font-size: 18px;
+  border-radius: 6px;
+  border: 0px;
+}
+
+.query-form-secondary > *:first-child {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.query-form-secondary > *:last-child {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+.query-form-secondary > *:not(:first-child):not(:last-child) {
+  border-radius: 0px;
+}
+
+.query-form-secondary > select {
+  background-color: #e6e6e6;
+  border: solid 1px rgb(187, 187, 187);
+}
+
+.query-form-secondary > select:hover {
+  cursor: pointer;
+}
+
+.query-form-secondary > button[type="submit"] {
+  background-color: rgb(255, 188, 42);
+}

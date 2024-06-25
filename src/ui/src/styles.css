@@ -9,6 +9,9 @@ body {
 
 .query-form {
   margin: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .query-form > * {
@@ -44,6 +47,15 @@ body {
 }
 
 .query-form > select:hover {
+  cursor: pointer;
+}
+
+.query-form > button {
+  background-color: rgb(255, 188, 42);
+  width: 48px;
+}
+
+.query-form > button:hover {
   cursor: pointer;
 }
 

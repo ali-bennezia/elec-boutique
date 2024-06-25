@@ -18,9 +18,21 @@
       style="margin-left: 8px"
     ></app-mobile-menu>
 
-    <form class="query-form">
-      <select>
-        <option selected="selected">Toutes les catégories</option>
+    <form
+      class="query-form"
+      fxShow="true"
+      fxHide.lt-sm="true"
+      (submit)="onSearchSubmit($event)"
+    >
+      <select (input)="searchService.emitCategory($any($event).target.value)">
+        <option selected="selected" value="">Toutes les catégories</option>
+        <option
+          [value]="c[0]"
+          *ngFor="let c of categories"
+          [selected]="searchService.lastCategory == c[0]"
+        >
+          {{ c[1] }}
+        </option>
       </select>
       <input
         type="search"
@@ -29,7 +41,12 @@
         matInput
         fxShow="true"
         fxFlex.lt-xl="251px"
+        (input)="searchService.emitQuery($any($event).target.value)"
+        [value]="searchService.lastQuery"
       />
+      <button aria-label="Bouton de recherche" type="submit">
+        <mat-icon>search</mat-icon>
+      </button>
     </form>
     <div fxShow="true" fxHide.lt-lg="true">
       <a mat-button [routerLink]="['apropos']" ariaCurrentWhenActive="page"
@@ -45,10 +62,39 @@
     <span class="spacer"></span>
     <app-offline-menu></app-offline-menu>
   </mat-toolbar-row>
+  <mat-toolbar-row
+    fxShow="false"
+    fxShow.lt-sm="true"
+    style="margin: 0px; padding: 0px"
+  >
+    <form class="query-form-secondary" (submit)="onSearchSubmit($event)">
+      <select (input)="searchService.emitCategory($any($event).target.value)">
+        <option selected="selected" value="">Toutes les catégories</option>
+        <option
+          [value]="c[0]"
+          *ngFor="let c of categories"
+          [selected]="searchService.lastCategory == c[0]"
+        >
+          {{ c[1] }}
+        </option>
+      </select>
+      <input
+        type="search"
+        class="query-input"
+        placeholder="Chercher des articles ..."
+        matInput
+        style="width: 100%"
+        (input)="searchService.emitQuery($any($event).target.value)"
+        [value]="searchService.lastQuery"
+      />
+      <button aria-label="Bouton de recherche" type="submit">
+        <mat-icon>search</mat-icon>
+      </button>
+    </form>
+  </mat-toolbar-row>
   <mat-toolbar-row class="navbar-secondary">
     <div>
-      <a mat-button>Bureautique</a>
-      <a mat-button>FPGAs</a>
+      <a mat-button *ngFor="let c of categories">{{ c[1] }}</a>
     </div>
   </mat-toolbar-row>
 </mat-toolbar>

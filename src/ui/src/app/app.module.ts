@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -20,7 +21,9 @@ import { OfflineMenuComponent } from './layout/navbar/offline-menu/offline-menu.
 import { SigninPageComponent } from './page/user/signin-page/signin-page.component';
 import { RegisterPageComponent } from './page/user/register-page/register-page.component';
 import { RouterModule } from '@angular/router';
+
 import APP_ROUTES from './routing/routes';
+
 import { HomePageComponent } from './page/home-page/home-page.component';
 import { AboutPageComponent } from './page/legal/about-page/about-page.component';
 import { PrivacyPolicyPageComponent } from './page/legal/privacy-policy-page/privacy-policy-page.component';
@@ -43,6 +46,7 @@ import { MobileMenuComponent } from './layout/navbar/mobile-menu/mobile-menu.com
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
     MatToolbarModule,
