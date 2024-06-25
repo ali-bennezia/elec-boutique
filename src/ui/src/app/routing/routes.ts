@@ -5,6 +5,8 @@ import { RegisterPageComponent } from '../page/user/register-page/register-page.
 import { AboutPageComponent } from '../page/legal/about-page/about-page.component';
 import { PrivacyPolicyPageComponent } from '../page/legal/privacy-policy-page/privacy-policy-page.component';
 import { NotFoundPageComponent } from '../page/not-found-page/not-found-page.component';
+import { ProfilePageComponent } from '../page/user/profile-page/profile-page.component';
+import { UserDetailsPageComponent } from '../page/user/user-details-page/user-details-page.component';
 
 const APP_ROUTES: Routes = [
   {
@@ -19,6 +21,14 @@ const APP_ROUTES: Routes = [
   {
     path: 'inscription',
     component: RegisterPageComponent,
+  },
+  {
+    path: 'profil',
+    component: ProfilePageComponent,
+  },
+  {
+    path: 'membre/:id',
+    component: UserDetailsPageComponent,
   },
   {
     path: 'apropos',

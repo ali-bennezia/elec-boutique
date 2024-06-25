@@ -18,11 +18,15 @@
 </div>
 <mat-menu #menu="matMenu" [overlapTrigger]="false">
   <span (mouseleave)="menuTrigger.closeMenu()">
-    <a [routerLink]="['connexion']" ariaCurrentWhenActive="page">
-      <button mat-menu-item (click)="onClickLogout($event)">
-        <mat-icon>logout</mat-icon>
-        <span>Se déconnecter</span>
+    <a [routerLink]="['/profil']" ariaCurrentWhenActive="page">
+      <button mat-menu-item>
+        <mat-icon>account_circle</mat-icon>
+        <span>Mon profil</span>
       </button>
     </a>
+    <button mat-menu-item (click)="onClickLogout($event)">
+      <mat-icon>logout</mat-icon>
+      <span>Se déconnecter</span>
+    </button>
   </span>
 </mat-menu>

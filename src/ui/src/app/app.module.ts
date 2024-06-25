@@ -34,6 +34,8 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { OnlineMenuComponent } from './layout/navbar/online-menu/online-menu.component';
+import { ProfilePageComponent } from './page/user/profile-page/profile-page.component';
+import { UserDetailsPageComponent } from './page/user/user-details-page/user-details-page.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,8 @@ import { OnlineMenuComponent } from './layout/navbar/online-menu/online-menu.com
     NotFoundPageComponent,
     MobileMenuComponent,
     OnlineMenuComponent,
+    ProfilePageComponent,
+    UserDetailsPageComponent,
   ],
   imports: [
     BrowserModule,

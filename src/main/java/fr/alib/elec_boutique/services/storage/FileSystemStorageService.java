@@ -102,6 +102,7 @@ public class FileSystemStorageService implements IStorageService {
 	public Resource loadAsResource(String fileName) {
 		try {
 			Path file = load(fileName);
+			System.out.println(file.toAbsolutePath().toString());
 			if ( !file.getParent().toAbsolutePath().equals(this.rootLocation.toAbsolutePath()) )
 				throw new StorageException("Can't load file outside of root directory.");
 			Resource resource = new UrlResource(file.toUri());
