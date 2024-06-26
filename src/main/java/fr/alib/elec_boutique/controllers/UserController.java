@@ -62,9 +62,10 @@ public class UserController {
 			token = token.replace("Bearer ", "");
 			String username = jwtUtils.extractUsername(token);
 			if (username != null) {
-				UserDetails usr = this.userService.loadUserByUsername(username);
+				CustomUserDetails usr = (CustomUserDetails) this.userService.loadUserByUsername(username);
 				if (usr.isEnabled() && usr.isCredentialsNonExpired() && usr.isAccountNonLocked() && usr.isAccountNonExpired()) {
-					return ResponseEntity.ok().build();
+					AuthenticationSessionOutboundDTO sess = this.userService.generateAuthenticationSession( usr.getUser() );
+					return ResponseEntity.ok( sess );
 				}
 			} throw new BadCredentialsException("Invalid token.");
 		}	

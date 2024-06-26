@@ -67,6 +67,28 @@ public class UserService implements UserDetailsService {
 	}
 	
 	/**
+	 * Generates an authentication session for a given user.
+	 * @param user The user.
+	 * @return The authentication session DTO.
+	 */
+	public AuthenticationSessionOutboundDTO generateAuthenticationSession(User user)
+	{
+		Long signInTime = TimeUtils.getNowUnixEpochMilis();
+		Long expiresTime = TimeUtils.getNowUnixEpochMilis() + jwtUtils.getExpirationTime();
+		
+		return new AuthenticationSessionOutboundDTO(
+				this.jwtUtils.generateToken(user.getUsername(), false),
+				user.getUsername(),
+				user.getProfilePhotoMedia(),
+				user.getId().toString(),
+				user.getEmail(),
+				Arrays.asList(user.getRoles().split(", ")),
+				signInTime,
+				expiresTime
+		);
+	}
+	
+	/**
 	 * Checks user credentials.
 	 * @return An AuthenticationSessionDTO if successful, null otherwise.
 	 */

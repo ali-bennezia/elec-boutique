@@ -34,7 +34,6 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
         this.authService.getProfile().subscribe((result) => {
           if (result.success) {
             this.generalProfile = result.data;
-            console.log(this.generalProfile);
           } else {
           }
           this.loading = false;
@@ -154,9 +153,9 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
       )
       .subscribe((res) => {
         this.loading = false;
-
         if (res.success) {
           this.loadTab(0);
+          this.authService.authenticate().subscribe((authRes) => {});
         } else {
         }
       });
