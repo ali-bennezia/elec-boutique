@@ -123,7 +123,12 @@
           <button mat-stroked-button (click)="fileInput.click()">
             Changer ma photo de profil
           </button>
-          <input type="file" hidden #fileInput />
+          <input
+            type="file"
+            hidden
+            #fileInput
+            (change)="onProfilePhotoInputFileChange($event)"
+          />
           <button
             mat-stroked-button
             type="submit"

@@ -107,7 +107,34 @@ export class AuthService {
     return this.http
       .patch(`${environment.backendUri}/api/users/profile`, dto, {
         headers: {
-          'Content-Type': 'application/json',
+          Authorization: `Bearer ${this.session?.token}`,
+        },
+        observe: 'response',
+      })
+      .pipe(
+        catchError((err) => {
+          return of({
+            success: false,
+            statusCode: err.statusCode,
+            data: err.body,
+          });
+        }),
+        switchMap((resp) => {
+          if (resp instanceof HttpResponse) {
+            return of({
+              success: true,
+              statusCode: resp.status,
+              data: resp.body,
+            });
+          } else return of(resp);
+        })
+      );
+  }
+
+  updateProfilePhoto(dto: FormData): Observable<AuthOperationResult> {
+    return this.http
+      .patch(`${environment.backendUri}/api/users/profile/photo`, dto, {
+        headers: {
           Authorization: `Bearer ${this.session?.token}`,
         },
         observe: 'response',

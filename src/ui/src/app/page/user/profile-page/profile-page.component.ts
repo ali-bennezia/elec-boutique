@@ -111,7 +111,21 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     }
     dto['authPassword'] = authPassword;
     dto['authPasswordConfirmation'] = authPasswordConfirmation;
+
     return dto;
+  }
+
+  getPhotoDto(
+    authPassword: string,
+    authPasswordConfirmation: string,
+    file: File | null
+  ): FormData {
+    let formData: FormData = new FormData();
+    formData.append('authPassword', authPassword);
+    formData.append('authPasswordConfirmation', authPasswordConfirmation);
+    if (file != null) formData.append('profilePhoto', file);
+
+    return formData;
   }
 
   updateProfile = (authPassword: string, authPasswordConfirmation: string) => {
@@ -128,7 +142,28 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
       });
   };
 
+  updateProfilePhoto = (
+    authPassword: string,
+    authPasswordConfirmation: string,
+    file: File | null
+  ) => {
+    this.loading = true;
+    this.authService
+      .updateProfilePhoto(
+        this.getPhotoDto(authPassword, authPasswordConfirmation, file)
+      )
+      .subscribe((res) => {
+        this.loading = false;
+
+        if (res.success) {
+          this.loadTab(0);
+        } else {
+        }
+      });
+  };
+
   readonly dialog = inject(MatDialog);
+
   generalAuthConfirmationSubscription: Subscription | null = null;
   generalAuthConfirmationUnsubscribe() {
     if (this.generalAuthConfirmationSubscription != null)
@@ -144,7 +179,35 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
         this.generalAuthConfirmationUnsubscribe();
         this.updateProfile(res.authPassword, res.authPasswordConfirmation);
       });
-    console.log(d.componentInstance);
+  }
+
+  generalPhotoAuthConfirmationSubscription: Subscription | null = null;
+  generalPhotoAuthConfirmationUnsubscribe() {
+    if (this.generalPhotoAuthConfirmationSubscription != null)
+      this.generalPhotoAuthConfirmationSubscription.unsubscribe();
+  }
+  openGeneralPhotoAuthConfirmationDialog(file: File) {
+    this.generalPhotoAuthConfirmationUnsubscribe();
+
+    let d: MatDialogRef<DialogAuthDialog, DialogAuthData> =
+      this.dialog.open(DialogAuthDialog);
+    this.generalAuthConfirmationSubscription =
+      d.componentInstance.onConfirmed$.subscribe((res) => {
+        this.generalPhotoAuthConfirmationUnsubscribe();
+        this.updateProfilePhoto(
+          res.authPassword,
+          res.authPasswordConfirmation,
+          file
+        );
+      });
+  }
+
+  onProfilePhotoInputFileChange(ev: Event) {
+    let e = ev as any;
+    let fileList = e.target.files;
+    let file: File = [...fileList][0];
+    this.openGeneralPhotoAuthConfirmationDialog(file);
+    console.log(file);
   }
 
   ngOnInit(): void {
@@ -153,5 +216,6 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.generalAuthConfirmationUnsubscribe();
+    this.generalPhotoAuthConfirmationUnsubscribe();
   }
 }

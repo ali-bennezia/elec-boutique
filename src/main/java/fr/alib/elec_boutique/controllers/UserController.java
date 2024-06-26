@@ -3,6 +3,7 @@ package fr.alib.elec_boutique.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -109,7 +110,6 @@ public class UserController {
 	@RequestMapping(value = "/profile", method = {RequestMethod.PUT, RequestMethod.PATCH})
 	public ResponseEntity<?> setProfile( 
 			@Valid @RequestBody UserProfileInboundDTO dto, 
-			@RequestParam(name = "profilePhoto", required = false) MultipartFile photoFile,
 			HttpServletRequest request )
 	{
 		String token = request.getHeader("Authorization");
@@ -125,6 +125,31 @@ public class UserController {
 				) 
 				return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 			user = this.userService.editUserProfileById(user.getId(), dto, pwdEncoder);
+			return ResponseEntity.ok(new UserProfileOutboundDTO(user));
+		}else {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
+	}
+	
+	@RequestMapping(value = "/profile/photo", method = {RequestMethod.PUT, RequestMethod.PATCH}, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<?> setProfilePhoto( 
+			@RequestParam(name = "authPassword", required = true) String authPassword,
+			@RequestParam(name = "authPasswordConfirmation", required = true) String authPasswordConfirmation,
+			@RequestParam(name = "profilePhoto", required = false) MultipartFile photoFile,
+			HttpServletRequest request )
+	{
+		String token = request.getHeader("Authorization");
+		if (token != null && !token.isBlank()) {
+			token = token.replace("Bearer ", "");
+			String currentUsername = this.jwtUtils.extractUsername(token);
+			CustomUserDetails userDetails = (CustomUserDetails) this.userService.loadUserByUsername(currentUsername);
+			User user = userDetails.getUser();
+			if (
+					authPassword.isBlank() || 
+					!authPassword.equals(authPasswordConfirmation) ||
+					!pwdEncoder.matches(authPassword, user.getPassword())
+				) 
+				return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 			if (photoFile != null) {
 				String profilePhotoMedia = this.mediaService.storeFile(photoFile);
 				user = this.userService.editUserProfilePhotoMedia(user, profilePhotoMedia);
