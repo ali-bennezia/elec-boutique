@@ -7,7 +7,13 @@
   fxShow="true"
   fxFlex.lt-lg="58px"
 >
-  <div class="avatar-container"></div>
+  <div
+    class="avatar-container"
+    [ngStyle]="{
+      'background-image':
+        'url(\'' + authService.getProfilePhotoMediaUri() + '\')'
+    }"
+  ></div>
   <ul fxShow="true" fxHide.lt-lg="true">
     <li>Bienvenue,</li>
     <li>

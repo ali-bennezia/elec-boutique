@@ -60,6 +60,12 @@ export class AuthService {
     }
   }
 
+  getProfilePhotoMediaUri() {
+    return this.isAuthenticated && this._session?.profilePhotoMedia != null
+      ? `${environment.backendUri}/api/medias/${this._session.profilePhotoMedia}`
+      : '/assets/images/guest_user.png';
+  }
+
   register(dto: UserRegisterOutboundDTO): Observable<AuthOperationResult> {
     return this.http
       .post(`${environment.backendUri}/api/users/register`, dto, {

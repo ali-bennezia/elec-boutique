@@ -37,7 +37,7 @@ a {
 }
 
 div.avatar-container {
-  background-image: url("/assets/images/guest_user.png");
+  /*background-image: url("/assets/images/guest_user.png");*/
   background-repeat: no-repeat;
   background-position: center;
   background-size: 110% 110%;
