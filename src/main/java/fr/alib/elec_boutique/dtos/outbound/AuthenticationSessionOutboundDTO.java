@@ -1,11 +1,13 @@
 package fr.alib.elec_boutique.dtos.outbound;
 
 import java.util.List;
+import java.util.Objects;
 
 
 public class AuthenticationSessionOutboundDTO {
 	private String token;
 	private String username;
+	private String profilePhotoMedia;
 	private String id;
 	private String email;
 	private List<String> roles;
@@ -22,6 +24,12 @@ public class AuthenticationSessionOutboundDTO {
 	}
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	public String getProfilePhotoMedia() {
+		return profilePhotoMedia;
+	}
+	public void setProfilePhotoMedia(String profilePhotoMedia) {
+		this.profilePhotoMedia = profilePhotoMedia;
 	}
 	public String getId() {
 		return id;
@@ -53,11 +61,30 @@ public class AuthenticationSessionOutboundDTO {
 	public void setExpiresAtTime(Long expiresAtTime) {
 		this.expiresAtTime = expiresAtTime;
 	}
-	public AuthenticationSessionOutboundDTO(String token, String username, String id, String email, List<String> roles,
-			Long signedInAtTime, Long expiresAtTime) {
+	@Override
+	public int hashCode() {
+		return Objects.hash(email, expiresAtTime, id, profilePhotoMedia, roles, signedInAtTime, token, username);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AuthenticationSessionOutboundDTO other = (AuthenticationSessionOutboundDTO) obj;
+		return Objects.equals(email, other.email) && Objects.equals(expiresAtTime, other.expiresAtTime)
+				&& Objects.equals(id, other.id) && Objects.equals(profilePhotoMedia, other.profilePhotoMedia)
+				&& Objects.equals(roles, other.roles) && Objects.equals(signedInAtTime, other.signedInAtTime)
+				&& Objects.equals(token, other.token) && Objects.equals(username, other.username);
+	}
+	public AuthenticationSessionOutboundDTO(String token, String username, String profilePhotoMedia, String id,
+			String email, List<String> roles, Long signedInAtTime, Long expiresAtTime) {
 		super();
 		this.token = token;
 		this.username = username;
+		this.profilePhotoMedia = profilePhotoMedia;
 		this.id = id;
 		this.email = email;
 		this.roles = roles;

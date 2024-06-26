@@ -83,6 +83,7 @@ public class UserService implements UserDetailsService {
 			return new AuthenticationSessionOutboundDTO(
 					this.jwtUtils.generateToken(usr.get().getUsername(), dto.getRememberMe()),
 					usr.get().getUsername(),
+					usr.get().getProfilePhotoMedia(),
 					usr.get().getId().toString(),
 					usr.get().getEmail(),
 					Arrays.asList(usr.get().getRoles().split(", ")),
