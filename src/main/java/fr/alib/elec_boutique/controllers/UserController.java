@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -105,8 +106,7 @@ public class UserController {
 		}
 	}
 	
-	@PutMapping("/profile")
-	@PatchMapping("/profile")
+	@RequestMapping(value = "/profile", method = {RequestMethod.PUT, RequestMethod.PATCH})
 	public ResponseEntity<?> setProfile( 
 			@Valid @RequestBody UserProfileInboundDTO dto, 
 			@RequestParam(name = "profilePhoto", required = false) MultipartFile photoFile,
@@ -124,6 +124,7 @@ public class UserController {
 					!pwdEncoder.matches(dto.getAuthPassword(), user.getPassword())
 				) 
 				return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+			user = this.userService.editUserProfileById(user.getId(), dto, pwdEncoder);
 			if (photoFile != null) {
 				String profilePhotoMedia = this.mediaService.storeFile(photoFile);
 				user = this.userService.editUserProfilePhotoMedia(user, profilePhotoMedia);

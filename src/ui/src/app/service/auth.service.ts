@@ -15,6 +15,7 @@ import { UserProfileInboundDTO } from '../data/service/auth/dto/inbound/user-pro
 import { Observable, of } from 'rxjs';
 import { switchMap, catchError, tap } from 'rxjs/operators';
 import { AuthSessionInboundDto } from '../data/service/auth/dto/inbound/auth-session-inbound-dto';
+import { UserProfileOutboundDTO } from '../data/service/auth/dto/outbound/user-profile-outbound-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -82,6 +83,35 @@ export class AuthService {
           observe: 'response',
         }
       )
+      .pipe(
+        catchError((err) => {
+          return of({
+            success: false,
+            statusCode: err.statusCode,
+            data: err.body,
+          });
+        }),
+        switchMap((resp) => {
+          if (resp instanceof HttpResponse) {
+            return of({
+              success: true,
+              statusCode: resp.status,
+              data: resp.body,
+            });
+          } else return of(resp);
+        })
+      );
+  }
+
+  updateProfile(dto: UserProfileOutboundDTO): Observable<AuthOperationResult> {
+    return this.http
+      .patch(`${environment.backendUri}/api/users/profile`, dto, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${this.session?.token}`,
+        },
+        observe: 'response',
+      })
       .pipe(
         catchError((err) => {
           return of({

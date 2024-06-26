@@ -5,6 +5,16 @@
   max-width: 60%;
 }
 
+#profile-btn-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#profile-btn-container > * {
+  margin: 4px;
+}
+
 #profile-avatar-container {
   width: 100px;
   height: 100px;

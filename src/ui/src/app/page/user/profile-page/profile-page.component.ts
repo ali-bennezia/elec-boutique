@@ -1,18 +1,27 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { UserProfileInboundDTO } from 'src/app/data/service/auth/dto/inbound/user-profile-inbound-dto';
 import { AuthService } from 'src/app/service/auth.service';
 import { MediaUtils } from 'src/app/utils/media-utils';
 import { environment } from 'src/environments/environment';
+import {
+  DialogAuthDialog,
+  DialogAuthData,
+} from './auth-dialog/dialog-auth-dialog';
+import { UserProfileOutboundDTO } from 'src/app/data/service/auth/dto/outbound/user-profile-outbound-dto';
+
+import { Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
   styleUrls: ['./profile-page.component.css'],
 })
-export class ProfilePageComponent implements OnInit {
+export class ProfilePageComponent implements OnInit, OnDestroy {
   generalProfile: UserProfileInboundDTO | null = null;
 
   loading: boolean = false;
@@ -88,7 +97,61 @@ export class ProfilePageComponent implements OnInit {
     }
   }
 
+  getDto(
+    authPassword: string,
+    authPasswordConfirmation: string
+  ): UserProfileOutboundDTO {
+    let dto = this.group.value;
+    for (let p in dto) {
+      if (
+        (typeof dto[p] == 'string' || dto[p] instanceof String) &&
+        dto[p].trim() == ''
+      )
+        dto[p] = null;
+    }
+    dto['authPassword'] = authPassword;
+    dto['authPasswordConfirmation'] = authPasswordConfirmation;
+    return dto;
+  }
+
+  updateProfile = (authPassword: string, authPasswordConfirmation: string) => {
+    this.loading = true;
+    this.authService
+      .updateProfile(this.getDto(authPassword, authPasswordConfirmation))
+      .subscribe((res) => {
+        this.loading = false;
+
+        if (res.success) {
+          this.loadTab(0);
+        } else {
+        }
+      });
+  };
+
+  readonly dialog = inject(MatDialog);
+  generalAuthConfirmationSubscription: Subscription | null = null;
+  generalAuthConfirmationUnsubscribe() {
+    if (this.generalAuthConfirmationSubscription != null)
+      this.generalAuthConfirmationSubscription.unsubscribe();
+  }
+  openGeneralAuthConfirmationDialog() {
+    this.generalAuthConfirmationUnsubscribe();
+
+    let d: MatDialogRef<DialogAuthDialog, DialogAuthData> =
+      this.dialog.open(DialogAuthDialog);
+    this.generalAuthConfirmationSubscription =
+      d.componentInstance.onConfirmed$.subscribe((res) => {
+        this.generalAuthConfirmationUnsubscribe();
+        this.updateProfile(res.authPassword, res.authPasswordConfirmation);
+      });
+    console.log(d.componentInstance);
+  }
+
   ngOnInit(): void {
     this.loadTab(0);
+  }
+
+  ngOnDestroy(): void {
+    this.generalAuthConfirmationUnsubscribe();
   }
 }

@@ -19,6 +19,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { OfflineMenuComponent } from './layout/navbar/offline-menu/offline-menu.component';
 import { SigninPageComponent } from './page/user/signin-page/signin-page.component';
@@ -70,6 +71,7 @@ import { UserDetailsPageComponent } from './page/user/user-details-page/user-det
     MatSnackBarModule,
     MatTabsModule,
     MatGridListModule,
+    MatDialogModule,
     NgIconsModule.withIcons({ ionPersonOutline, ionMenuOutline }),
     RouterModule.forRoot(APP_ROUTES),
     FormsModule,

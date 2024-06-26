@@ -106,6 +106,16 @@ html {
   --mdc-outlined-button-disabled-outline-color: rgba(0, 0, 0, 0.12);
 }
 
+.mat-mdc-dialog-container {
+  --mdc-dialog-container-color: #f3f3f3;
+  --mdc-dialog-subhead-color: rgba(16, 16, 31, 0.87);
+  --mdc-dialog-supporting-text-color: rgba(27, 25, 43, 0.6);
+}
+
+.mat-mdc-button.mat-unthemed {
+  --mdc-text-button-label-text-color: #161524;
+}
+
 label.mdc-label {
   color: black;
 }

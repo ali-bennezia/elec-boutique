@@ -1,0 +1,29 @@
+<h2 mat-dialog-title>Confirmation</h2>
+<mat-dialog-content>
+  Veuillez confirmer votre action en entrant deux fois votre mot de passe
+  actuel.
+  <form>
+    <mat-form-field style="width: 100%; margin-top: 8px">
+      <mat-label>Mot de passe</mat-label>
+      <input
+        matInput
+        type="password"
+        name="authPassword"
+        [(ngModel)]="authPassword"
+      />
+    </mat-form-field>
+    <mat-form-field style="width: 100%">
+      <mat-label>Confirmation de votre mot de passe</mat-label>
+      <input
+        matInput
+        type="password"
+        name="authPasswordConfirmation"
+        [(ngModel)]="authPasswordConfirmation"
+      />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Annuler</button>
+  <button mat-button (click)="onConfirmed()" mat-dialog-close>Confirmer</button>
+</mat-dialog-actions>
