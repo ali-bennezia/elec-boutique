@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 
 import { UserRegisterOutboundDTO } from '../data/service/auth/dto/outbound/user-register-outbound-dto';
 import { UserSignInOutboundDTO } from '../data/service/auth/dto/outbound/user-signin-outbound-dto';
+import { UserProfileInboundDTO } from '../data/service/auth/dto/inbound/user-profile-inbound-dto';
 
 import { Observable, of } from 'rxjs';
 import { switchMap, catchError, tap } from 'rxjs/operators';
@@ -33,6 +34,10 @@ export class AuthService {
 
   public get isAuthenticated(): boolean {
     return this._session != null;
+  }
+
+  public get isProvider(): boolean {
+    return this.hasRole('ROLE_PROVIDER');
   }
 
   public get isAdmin(): boolean {
@@ -64,6 +69,37 @@ export class AuthService {
     return this.isAuthenticated && this._session?.profilePhotoMedia != null
       ? `${environment.backendUri}/api/medias/${this._session.profilePhotoMedia}`
       : '/assets/images/guest_user.png';
+  }
+
+  getProfile(): Observable<AuthOperationResult> {
+    return this.http
+      .get<UserProfileInboundDTO>(
+        `${environment.backendUri}/api/users/profile`,
+        {
+          headers: {
+            Authorization: `Bearer ${this.session?.token}`,
+          },
+          observe: 'response',
+        }
+      )
+      .pipe(
+        catchError((err) => {
+          return of({
+            success: false,
+            statusCode: err.statusCode,
+            data: err.body,
+          });
+        }),
+        switchMap((resp) => {
+          if (resp instanceof HttpResponse) {
+            return of({
+              success: true,
+              statusCode: resp.status,
+              data: resp.body,
+            });
+          } else return of(resp);
+        })
+      );
   }
 
   register(dto: UserRegisterOutboundDTO): Observable<AuthOperationResult> {

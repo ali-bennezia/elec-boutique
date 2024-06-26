@@ -123,3 +123,27 @@ form.auth-form button[type="submit"] {
   pointer-events: none;
   user-select: none;
 }
+
+div.avatar-container {
+  /*background-image: url("/assets/images/guest_user.png");*/
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 110% 110%;
+  border-radius: 50%;
+  border: solid 2px rgba(255, 255, 255, 0.267);
+  width: 48px;
+  height: 48px;
+  overflow: hidden;
+}
+
+.greyed-out {
+  color: grey;
+  font-size: 14px;
+  font-weight: 200;
+}
+
+.title-bold {
+  color: rgb(16, 18, 29);
+  font-weight: bold;
+  font-size: 20px;
+}

@@ -17,6 +17,8 @@ import { NavbarComponent } from './layout/navbar/navbar.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 import { OfflineMenuComponent } from './layout/navbar/offline-menu/offline-menu.component';
 import { SigninPageComponent } from './page/user/signin-page/signin-page.component';
@@ -66,6 +68,8 @@ import { UserDetailsPageComponent } from './page/user/user-details-page/user-det
     MatMenuModule,
     MatCheckboxModule,
     MatSnackBarModule,
+    MatTabsModule,
+    MatGridListModule,
     NgIconsModule.withIcons({ ionPersonOutline, ionMenuOutline }),
     RouterModule.forRoot(APP_ROUTES),
     FormsModule,

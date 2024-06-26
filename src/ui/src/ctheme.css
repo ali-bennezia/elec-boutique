@@ -70,6 +70,27 @@ html {
   --mdc-checkbox-unselected-icon-color: rgba(31, 29, 49, 0.507);
 }
 
+.mat-mdc-tab-label-container {
+  border-bottom: solid 1px rgba(128, 128, 128, 0.308);
+}
+
+.mat-mdc-tab-group,
+.mat-mdc-tab-nav-bar {
+  --mdc-tab-indicator-active-indicator-color: #c2185b;
+  --mat-tab-header-disabled-ripple-color: rgba(255, 255, 255, 0.5);
+  --mat-tab-header-pagination-icon-color: #fff;
+  --mat-tab-header-inactive-label-text-color: rgba(0, 0, 0, 0.767);
+  --mat-tab-header-active-label-text-color: #c2185b;
+  --mat-tab-header-active-ripple-color: #c2185b;
+  --mat-tab-header-inactive-ripple-color: #c2185b;
+  --mat-tab-header-inactive-focus-label-text-color: rgb(0, 0, 0);
+  --mat-tab-header-inactive-hover-label-text-color: rgba(0, 0, 0, 0.911);
+  --mat-tab-header-active-focus-label-text-color: #c2185b;
+  --mat-tab-header-active-hover-label-text-color: #c2185b;
+  --mat-tab-header-active-focus-indicator-color: #c2185b;
+  --mat-tab-header-active-hover-indicator-color: #c2185b;
+}
+
 .mat-mdc-outlined-button.mat-unthemed {
   --mdc-outlined-button-label-text-color: #453cac;
 }
