@@ -61,3 +61,14 @@
 .profile-input-horizontal-group > *:last-child {
   margin-left: 4px;
 }
+
+#profile-payments-title {
+  color: rgb(16, 18, 29);
+  font-weight: bold;
+  font-size: 20px;
+
+  margin-top: 8px;
+
+  text-align: center;
+  vertical-align: middle;
+}

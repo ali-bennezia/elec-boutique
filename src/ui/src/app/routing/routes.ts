@@ -7,6 +7,7 @@ import { PrivacyPolicyPageComponent } from '../page/legal/privacy-policy-page/pr
 import { NotFoundPageComponent } from '../page/not-found-page/not-found-page.component';
 import { ProfilePageComponent } from '../page/user/profile-page/profile-page.component';
 import { UserDetailsPageComponent } from '../page/user/user-details-page/user-details-page.component';
+import { AddModifyCardPageComponent } from '../page/user/card/add-modify-card-page/add-modify-card-page.component';
 
 const APP_ROUTES: Routes = [
   {
@@ -21,6 +22,10 @@ const APP_ROUTES: Routes = [
   {
     path: 'inscription',
     component: RegisterPageComponent,
+  },
+  {
+    path: 'profil/formulaire-carte',
+    component: AddModifyCardPageComponent,
   },
   {
     path: 'profil',

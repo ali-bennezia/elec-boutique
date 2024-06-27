@@ -15,6 +15,8 @@ public class PaymentData {
 	private byte[] ccvEncrypted;
 	@Column(nullable = false)
 	private byte[] expirationDateTimeEncrypted;
+	private String firstName;
+	private String lastName;
 	@Embedded
 	private Address address;
 	
@@ -36,6 +38,18 @@ public class PaymentData {
 	public void setExpirationDateTimeEncrypted(byte[] expirationDateTimeEncrypted) {
 		this.expirationDateTimeEncrypted = expirationDateTimeEncrypted;
 	}
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 	public Address getAddress() {
 		return address;
 	}
@@ -49,7 +63,7 @@ public class PaymentData {
 		result = prime * result + Arrays.hashCode(ccvEncrypted);
 		result = prime * result + Arrays.hashCode(codeEncrypted);
 		result = prime * result + Arrays.hashCode(expirationDateTimeEncrypted);
-		result = prime * result + Objects.hash(address);
+		result = prime * result + Objects.hash(address, firstName, lastName);
 		return result;
 	}
 	@Override
@@ -63,13 +77,16 @@ public class PaymentData {
 		PaymentData other = (PaymentData) obj;
 		return Objects.equals(address, other.address) && Arrays.equals(ccvEncrypted, other.ccvEncrypted)
 				&& Arrays.equals(codeEncrypted, other.codeEncrypted)
-				&& Arrays.equals(expirationDateTimeEncrypted, other.expirationDateTimeEncrypted);
+				&& Arrays.equals(expirationDateTimeEncrypted, other.expirationDateTimeEncrypted)
+				&& Objects.equals(firstName, other.firstName) && Objects.equals(lastName, other.lastName);
 	}
-	public PaymentData(byte[] codeEncrypted, byte[] ccvEncrypted, byte[] expirationDateTimeEncrypted, Address address) {
+	public PaymentData(byte[] codeEncrypted, byte[] ccvEncrypted, byte[] expirationDateTimeEncrypted, String firstName, String lastName, Address address) {
 		super();
 		this.codeEncrypted = codeEncrypted;
 		this.ccvEncrypted = ccvEncrypted;
 		this.expirationDateTimeEncrypted = expirationDateTimeEncrypted;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.address = address;
 	}
 	public PaymentData() {

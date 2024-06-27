@@ -14,13 +14,13 @@
         'url(\'' + authService.getProfilePhotoMediaUri() + '\')'
     }"
   ></div>
-  <ul fxShow="true" fxHide.lt-lg="true">
+  <ul fxShow="true" fxHide.lt-lg="true" fxShow.lt-lg="false">
     <li>Bienvenue,</li>
     <li>
       <b>{{ authService.session?.username }}</b> !
     </li>
   </ul>
-  <ng-icon name="ionMenuOutline" size="26"></ng-icon>
+  <ng-icon name="ionMenuOutline" size="26" fxShow.lt-lg="false"></ng-icon>
 </div>
 <mat-menu #menu="matMenu" [overlapTrigger]="false">
   <span (mouseleave)="menuTrigger.closeMenu()">

@@ -13,6 +13,8 @@ import fr.alib.elec_boutique.utils.EncryptionUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -22,6 +24,7 @@ import jakarta.persistence.Table;
 public class Card {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Embedded
 	private PaymentData paymentData;
@@ -44,29 +47,6 @@ public class Card {
 		this.paymentData = paymentData;
 	}
 
-	public byte[] getCodeEncrypted() {
-		return this.getPaymentData().getCodeEncrypted();
-	}
-
-	public void setCodeEncrypted(byte[] codeEncrypted) {
-		this.getPaymentData().setCcvEncrypted(codeEncrypted);
-	}
-
-	public byte[] getCcvEncrypted() {
-		return this.getPaymentData().getCcvEncrypted();
-	}
-
-	public void setCcvEncrypted(byte[] ccvEncrypted) {
-		this.getPaymentData().setCcvEncrypted(ccvEncrypted);
-	}
-
-	public byte[] getExpirationDateTimeEncrypted() {
-		return this.getPaymentData().getExpirationDateTimeEncrypted();
-	}
-
-	public void setExpirationDateTimeEncrypted(byte[] expirationDateTimeEncrypted) {
-		this.getPaymentData().setExpirationDateTimeEncrypted(expirationDateTimeEncrypted);
-	}
 
 	public User getUser() {
 		return user;
@@ -76,14 +56,6 @@ public class Card {
 		this.user = user;
 	}
 
-	public Address getAddress() {
-		return this.getPaymentData().getAddress();
-	}
-
-	public void setAddress(Address address) {
-		this.getPaymentData().setAddress(address);
-	}
-	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id, paymentData, user);
@@ -104,29 +76,38 @@ public class Card {
 
 	public void applyDTO(CardInboundDTO dto, BytesEncryptor encryptor, EncryptionUtils encryptionUtils)
 	{
-		this.setCodeEncrypted( encryptor.encrypt(dto.getCode().getBytes(StandardCharsets.UTF_8) ) );
-		this.setCcvEncrypted( encryptor.encrypt( dto.getCcv().getBytes(StandardCharsets.UTF_8) ) );
-		this.setExpirationDateTimeEncrypted( encryptor.encrypt( encryptionUtils.longToBytes( dto.getExpirationDateTime() ) ) );
-		this.setAddress(new Address( dto.getAddress() ));	
+		this.setPaymentData(new PaymentData());
+		this.getPaymentData().setCodeEncrypted( encryptor.encrypt(dto.getCode().getBytes(StandardCharsets.UTF_8) ) );
+		this.getPaymentData().setCcvEncrypted( encryptor.encrypt( dto.getCcv().getBytes(StandardCharsets.UTF_8) ) );
+		this.getPaymentData().setExpirationDateTimeEncrypted( encryptor.encrypt( encryptionUtils.longToBytes( dto.getExpirationDateTime() ) ) );
+		this.getPaymentData().setFirstName(dto.getFirstName());
+		this.getPaymentData().setLastName(dto.getLastName());
+		this.getPaymentData().setAddress(new Address( dto.getAddress() ));	
 	}
 	
 	public void applyPatchDTO(CardInboundDTO dto, BytesEncryptor encryptor, EncryptionUtils encryptionUtils)
 	{
-		if (dto.getCode() != null) this.setCodeEncrypted( encryptor.encrypt(dto.getCode().getBytes(StandardCharsets.UTF_8) ) );
-		if (dto.getCcv() != null) this.setCcvEncrypted( encryptor.encrypt( dto.getCcv().getBytes(StandardCharsets.UTF_8) ) );
-		if (dto.getExpirationDateTime() != null) this.setExpirationDateTimeEncrypted( encryptor.encrypt( encryptionUtils.longToBytes( dto.getExpirationDateTime() ) ) );
-		if (dto.getAddress() != null) this.setAddress(new Address( dto.getAddress() ));	
+		if (this.paymentData == null) this.setPaymentData(new PaymentData());
+		if (dto.getCode() != null) this.getPaymentData().setCodeEncrypted( encryptor.encrypt(dto.getCode().getBytes(StandardCharsets.UTF_8) ) );
+		if (dto.getCcv() != null) this.getPaymentData().setCcvEncrypted( encryptor.encrypt( dto.getCcv().getBytes(StandardCharsets.UTF_8) ) );
+		if (dto.getExpirationDateTime() != null) this.getPaymentData().setExpirationDateTimeEncrypted( encryptor.encrypt( encryptionUtils.longToBytes( dto.getExpirationDateTime() ) ) );
+		if (dto.getFirstName() != null) this.getPaymentData().setFirstName( dto.getFirstName() );
+		if (dto.getLastName() != null) this.getPaymentData().setFirstName( dto.getLastName() );
+		if (dto.getAddress() != null) this.getPaymentData().setAddress(new Address( dto.getAddress() ));	
 	}
 	
-	public Card(Long id, byte[] codeEncrypted, byte[] ccvEncrypted, byte[] expirationDateTimeEncrypted, User user,
+	public Card(Long id, byte[] codeEncrypted, byte[] ccvEncrypted, byte[] expirationDateTimeEncrypted, User user, String firstName, String lastName,
 			Address address) {
 		super();
 		this.id = id;
-		this.setCodeEncrypted(codeEncrypted);
-		this.setCcvEncrypted(ccvEncrypted);
-		this.setExpirationDateTimeEncrypted(expirationDateTimeEncrypted);
+		this.setPaymentData(new PaymentData());
+		this.getPaymentData().setCodeEncrypted(codeEncrypted);
+		this.getPaymentData().setCcvEncrypted(ccvEncrypted);
+		this.getPaymentData().setExpirationDateTimeEncrypted(expirationDateTimeEncrypted);
 		this.user = user;
-		this.setAddress(address);
+		this.getPaymentData().setFirstName(firstName);
+		this.getPaymentData().setLastName(lastName);
+		this.getPaymentData().setAddress(address);
 	}
 
 	public Card(CardInboundDTO dto, BytesEncryptor encryptor, EncryptionUtils encryptionUtils, User user ) 

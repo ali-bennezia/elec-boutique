@@ -15,6 +15,8 @@ import { UserProfileOutboundDTO } from 'src/app/data/service/auth/dto/outbound/u
 
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { CardInboundDTO } from 'src/app/data/payment/dto/inbound/card-inbound-dto';
 
 @Component({
   selector: 'app-profile-page',
@@ -23,6 +25,8 @@ import { tap } from 'rxjs/operators';
 })
 export class ProfilePageComponent implements OnInit, OnDestroy {
   generalProfile: UserProfileInboundDTO | null = null;
+  cards: CardInboundDTO[] = [];
+  displayedColumns: string[] = ['owner', 'code', 'expirationDate', 'actions'];
 
   loading: boolean = false;
 
@@ -40,14 +44,62 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
         });
         break;
       case 1:
+        this.http
+          .get<CardInboundDTO[]>(`${environment.backendUri}/api/users/cards`, {
+            observe: 'response',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${this.authService.session!.token}`,
+            },
+          })
+          .pipe(
+            tap((_) => {
+              this.loading = false;
+            })
+          )
+          .subscribe({
+            next: (data) => {
+              this.cards = data.body ?? [];
+              console.log(this.cards);
+            },
+            error: (err) => {
+              this.handleError(err.statusCode);
+            },
+          });
         break;
       default:
         break;
     }
   }
 
+  onClickDeleteCard(card: CardInboundDTO) {
+    this.loading = true;
+    this.http
+      .delete<CardInboundDTO[]>(
+        `${environment.backendUri}/api/users/cards/${card.id}`,
+        {
+          observe: 'response',
+          headers: {
+            Authorization: `Bearer ${this.authService.session!.token}`,
+          },
+        }
+      )
+      .pipe(
+        tap((_) => {
+          this.loading = false;
+        })
+      )
+      .subscribe({
+        next: () => {
+          this.cards = this.cards.filter((el) => el.id != card.id);
+        },
+        error: (err) => {
+          this.handleError(err.statusCode);
+        },
+      });
+  }
+
   onTabChanged(ev: MatTabChangeEvent) {
-    console.log(ev);
     switch (ev.index) {
       case 0:
         break;
@@ -56,14 +108,32 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
       default:
         break;
     }
+    this.loadTab(ev.index);
   }
+
+  handleError(errCode: number) {
+    switch (errCode) {
+      case 400:
+        this.displaySnackbar('Requête invalide.');
+        break;
+      default:
+        this.displaySnackbar('Erreur serveur interne.');
+        break;
+    }
+  }
+
+  displaySnackbar(msg: string) {
+    this._snackbar.open(msg, 'Close');
+  }
+
   mediaUtils = MediaUtils;
 
   group!: FormGroup;
   constructor(
     private http: HttpClient,
     public authService: AuthService,
-    builder: FormBuilder
+    builder: FormBuilder,
+    private _snackbar: MatSnackBar
   ) {
     this.group = builder.group({
       email: [''],
@@ -137,6 +207,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
         if (res.success) {
           this.loadTab(0);
         } else {
+          this.handleError(res.statusCode);
         }
       });
   };
@@ -157,6 +228,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
           this.loadTab(0);
           this.authService.authenticate().subscribe((authRes) => {});
         } else {
+          this.handleError(res.statusCode);
         }
       });
   };
@@ -206,7 +278,6 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     let fileList = e.target.files;
     let file: File = [...fileList][0];
     this.openGeneralPhotoAuthConfirmationDialog(file);
-    console.log(file);
   }
 
   ngOnInit(): void {

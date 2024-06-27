@@ -68,6 +68,8 @@ html {
 
   --mdc-checkbox-selected-icon-color: #34383a;
   --mdc-checkbox-unselected-icon-color: rgba(31, 29, 49, 0.507);
+
+  --mat-datepicker-toggle-icon-color: rgb(16, 15, 29);
 }
 
 .mat-mdc-tab-label-container {
@@ -116,6 +118,19 @@ html {
   --mdc-text-button-label-text-color: #161524;
 }
 
+.month-picker {
+  color: white;
+}
+
 label.mdc-label {
   color: black;
+}
+
+button.mat-calendar-period-button.mdc-button.mat-mdc-button.mat-unthemed.mat-mdc-button-base {
+  color: white;
+}
+
+button.mat-calendar-period-button.mdc-button.mat-mdc-button.mat-unthemed.mat-mdc-button-base
+  span.mdc-button__label {
+  color: white;
 }

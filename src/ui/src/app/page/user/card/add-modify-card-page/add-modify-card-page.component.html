@@ -1,0 +1,86 @@
+<form
+  class="auth-form"
+  [formGroup]="group"
+  (ngSubmit)="onSubmit($event)"
+  style="max-width: 600px"
+>
+  <h1>Enregistrer ou modifier une carte de paiement</h1>
+  <div
+    class="auth-form-layout"
+    fxLayout="column"
+    fxLayoutAlign="space-between center"
+  >
+    <div>
+      <mat-form-field>
+        <mat-label>Code</mat-label>
+        <input matInput type="text" formControlName="code" />
+      </mat-form-field>
+
+      <div style="display: flex; flex-direction: row">
+        <mat-form-field style="margin-right: 8px">
+          <mat-label>CCV</mat-label>
+          <input matInput type="number" formControlName="ccv" />
+        </mat-form-field>
+
+        <mat-form-field id="datepicker-field">
+          <mat-label>Date d'expiration</mat-label>
+          <input
+            matInput
+            [matDatepicker]="dp"
+            formControlName="expirationDate"
+          />
+          <mat-hint>MM/YYYY</mat-hint>
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="dp"
+          ></mat-datepicker-toggle>
+          <mat-datepicker
+            #dp
+            startView="multi-year"
+            panelClass="month-picker"
+            (monthSelected)="setMonthAndYear($event, dp)"
+          >
+          </mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div style="display: flex; flex-direction: row">
+        <mat-form-field style="margin-right: 8px">
+          <mat-label>Prénom</mat-label>
+          <input matInput type="text" formControlName="firstName" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Nom</mat-label>
+          <input matInput type="text" formControlName="lastName" />
+        </mat-form-field>
+      </div>
+      <span formGroupName="address">
+        <h2>Adresse personnelle</h2>
+        <mat-form-field>
+          <mat-label>Rue</mat-label>
+          <input matInput formControlName="street" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Ville</mat-label>
+          <input matInput formControlName="city" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Code postal</mat-label>
+          <input matInput formControlName="zipCode" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Pays</mat-label>
+          <input matInput formControlName="country" />
+        </mat-form-field>
+      </span>
+    </div>
+  </div>
+  <button
+    mat-stroked-button
+    type="submit"
+    style="left: 50%; transform: translateX(-50%)"
+    [disabled]="group.invalid || this.loading"
+  >
+    Envoyer
+  </button>
+</form>

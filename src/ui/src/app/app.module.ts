@@ -20,6 +20,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MatTableModule } from '@angular/material/table';
 
 import { OfflineMenuComponent } from './layout/navbar/offline-menu/offline-menu.component';
 import { SigninPageComponent } from './page/user/signin-page/signin-page.component';
@@ -39,6 +43,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { OnlineMenuComponent } from './layout/navbar/online-menu/online-menu.component';
 import { ProfilePageComponent } from './page/user/profile-page/profile-page.component';
 import { UserDetailsPageComponent } from './page/user/user-details-page/user-details-page.component';
+import { AddModifyCardPageComponent } from './page/user/card/add-modify-card-page/add-modify-card-page.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +61,7 @@ import { UserDetailsPageComponent } from './page/user/user-details-page/user-det
     OnlineMenuComponent,
     ProfilePageComponent,
     UserDetailsPageComponent,
+    AddModifyCardPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -72,6 +78,10 @@ import { UserDetailsPageComponent } from './page/user/user-details-page/user-det
     MatTabsModule,
     MatGridListModule,
     MatDialogModule,
+    MatProgressSpinnerModule,
+    MatMomentDateModule,
+    MatDatepickerModule,
+    MatTableModule,
     NgIconsModule.withIcons({ ionPersonOutline, ionMenuOutline }),
     RouterModule.forRoot(APP_ROUTES),
     FormsModule,

@@ -45,7 +45,8 @@ public class CardService {
 	public List<Card> getUserCardsById(Long id) throws IdNotFoundException
 	{
 		CustomUserDetails user = (CustomUserDetails) userService.loadUserById(id);
-		return user.getUser().getCards();
+		//return user.getUser().getCards();
+		return this.cardRepository.findAllByUserId(user.getUser().getId());
 	}
 	
 	/**
@@ -62,8 +63,7 @@ public class CardService {
 		OptimisticLockingFailureException
 	{
 		Card card = new Card(dto, bytesEncryptor, encryptionUtils, user.getUser());
-		user.getUser().getCards().add(card);
-		this.userRepository.save(user.getUser());
+		card = this.cardRepository.save(card);
 		return card;
 	}
 	

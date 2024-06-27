@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -59,7 +60,7 @@ public class PaymentController {
 	@Autowired
 	private EncryptionUtils encryptionUtils;
 	
-	@PostMapping("/user/cards")
+	@PostMapping("/users/cards")
 	public ResponseEntity<?> postCardAPI( @Valid @RequestBody CardInboundDTO dto ) throws BadCredentialsException
 	{
 		CustomUserDetails userDetails = ControllerUtils.throwIfNotAuthenticated();
@@ -85,11 +86,11 @@ public class PaymentController {
 		if (!card.getUser().getId().equals(userDetails.getUser().getId())) {
 			throw new LackingAuthorizationsException("User isn't the card owner.");
 		}
+		this.cardService.deleteCardById(id);
 		return ResponseEntity.noContent().build();
 	}
 	
-	@PutMapping("/users/cards/{id}")
-	@PatchMapping("/users/cards/{id}")
+	@RequestMapping(value = "/users/cards/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT})
 	public ResponseEntity<?> editCardAPI( @PathVariable("id") Long id, @RequestBody CardInboundDTO dto )
 	{
 		ControllerUtils.throwIfNotAuthenticatedOrNotCardOwner(cardService, id);
