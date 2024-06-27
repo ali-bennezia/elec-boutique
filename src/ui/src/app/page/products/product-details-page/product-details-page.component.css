@@ -37,5 +37,8 @@
   outline: solid 4px rgba(128, 128, 128, 0.219);
 }
 
-#product-details-infos {
+#price {
+  margin-top: 64px;
+  font-size: 48px;
+  font-weight: 100;
 }

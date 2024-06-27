@@ -7,7 +7,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgIconsModule } from '@ng-icons/core';
-import { ionMenuOutline, ionPersonOutline } from '@ng-icons/ionicons';
+import {
+  ionCartOutline,
+  ionMenuOutline,
+  ionPersonOutline,
+} from '@ng-icons/ionicons';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -47,6 +51,9 @@ import { AddModifyCardPageComponent } from './page/user/card/add-modify-card-pag
 import { ManageProductsPageComponent } from './page/products/manage-products-page/manage-products-page.component';
 import { AddModifyProductPageComponent } from './page/products/add-modify-product-page/add-modify-product-page.component';
 import { ProductDetailsPageComponent } from './page/products/product-details-page/product-details-page.component';
+import { CartMenuComponent } from './layout/navbar/cart-menu/cart-menu.component';
+import { CartArticlesPageComponent } from './page/products/cart-articles-page/cart-articles-page.component';
+import { PaymentPageComponent } from './page/products/payment-page/payment-page.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +75,9 @@ import { ProductDetailsPageComponent } from './page/products/product-details-pag
     ManageProductsPageComponent,
     AddModifyProductPageComponent,
     ProductDetailsPageComponent,
+    CartMenuComponent,
+    CartArticlesPageComponent,
+    PaymentPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -88,7 +98,11 @@ import { ProductDetailsPageComponent } from './page/products/product-details-pag
     MatMomentDateModule,
     MatDatepickerModule,
     MatTableModule,
-    NgIconsModule.withIcons({ ionPersonOutline, ionMenuOutline }),
+    NgIconsModule.withIcons({
+      ionPersonOutline,
+      ionMenuOutline,
+      ionCartOutline,
+    }),
     RouterModule.forRoot(APP_ROUTES),
     FormsModule,
     ReactiveFormsModule,

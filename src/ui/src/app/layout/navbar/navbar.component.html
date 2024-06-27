@@ -64,6 +64,7 @@
       *ngIf="authService.isAnonymous; else onlineMenuBlock"
     ></app-offline-menu>
     <ng-template #onlineMenuBlock>
+      <app-cart-menu></app-cart-menu>
       <app-online-menu></app-online-menu>
     </ng-template>
   </mat-toolbar-row>

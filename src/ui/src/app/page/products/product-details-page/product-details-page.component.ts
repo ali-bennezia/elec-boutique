@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { tap } from 'rxjs';
 import { ProductInboundDTO } from 'src/app/data/products/dto/inbound/product-inbound-dto';
+import { ArticleService } from 'src/app/service/article.service';
 import { AuthService } from 'src/app/service/auth.service';
 import { environment } from 'src/environments/environment';
 
@@ -144,13 +145,19 @@ export class ProductDetailsPageComponent {
       });
   }
 
+  onClickAddToCart(product: ProductInboundDTO) {
+    this.articleService.addToCart(product);
+    this.displaySnackbar('Article ajouté au panier.');
+  }
+
   loading: boolean = false;
   product: ProductInboundDTO | null = null;
   constructor(
     activatedRoute: ActivatedRoute,
     private http: HttpClient,
     public authService: AuthService,
-    private _snackbar: MatSnackBar
+    private _snackbar: MatSnackBar,
+    private articleService: ArticleService
   ) {
     activatedRoute.paramMap.subscribe((params) => {
       this.fetchProduct(Number(params.get('id')));

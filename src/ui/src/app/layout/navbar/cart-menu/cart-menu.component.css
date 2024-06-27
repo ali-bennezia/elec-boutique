@@ -1,0 +1,29 @@
+.cart-container {
+  display: flex;
+  flex-direction: row;
+  border-radius: 16px;
+  margin-right: 8px;
+}
+.cart-container * {
+  margin: 4px;
+}
+
+.cart-container:hover {
+  background-color: rgba(255, 255, 255, 0.082);
+}
+
+.cart-qty-display {
+  text-align: center;
+  vertical-align: middle;
+  line-height: 58px;
+  margin-left: 8px;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+a:hover {
+  color: white;
+}

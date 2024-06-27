@@ -147,3 +147,18 @@ div.avatar-container {
   font-weight: bold;
   font-size: 20px;
 }
+
+.sales-btn {
+  border: solid 1px rgb(194, 149, 0);
+  background-color: rgb(255, 196, 0);
+  color: black;
+  border-radius: 16px;
+  padding: 10px;
+  margin: 4px;
+  font-weight: 700;
+}
+
+.sales-btn:hover {
+  cursor: pointer;
+  background-color: rgb(240, 184, 0);
+}

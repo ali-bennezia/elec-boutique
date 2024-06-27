@@ -1,0 +1,28 @@
+<div id="panier-container" style="max-width: 600px">
+  <h2>Mon panier</h2>
+  <div>
+    <div
+      class="cart-article"
+      *ngFor="let article of articleService.cart; let i = index"
+    >
+      <p>{{ article.name }}</p>
+      <p>{{ article.price }}€</p>
+      <span>
+        <button
+          mat-fab
+          aria-label="Suppression du produit"
+          style="margin: 4px"
+          (click)="articleService.removeFromCart(i)"
+        >
+          <mat-icon>delete</mat-icon>
+        </button></span
+      >
+    </div>
+  </div>
+  <p style="text-align: center; font-size: 24px; margin: 16px">
+    Prix total {{ articleService.getTotalPrice() }}€
+  </p>
+  <a [routerLink]="['/produits', 'payer']">
+    <button class="sales-btn">Procéder au paiement</button>
+  </a>
+</div>

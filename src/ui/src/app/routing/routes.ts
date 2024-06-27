@@ -11,6 +11,8 @@ import { AddModifyCardPageComponent } from '../page/user/card/add-modify-card-pa
 import { ManageProductsPageComponent } from '../page/products/manage-products-page/manage-products-page.component';
 import { AddModifyProductPageComponent } from '../page/products/add-modify-product-page/add-modify-product-page.component';
 import { ProductDetailsPageComponent } from '../page/products/product-details-page/product-details-page.component';
+import { CartArticlesPageComponent } from '../page/products/cart-articles-page/cart-articles-page.component';
+import { PaymentPageComponent } from '../page/products/payment-page/payment-page.component';
 
 const APP_ROUTES: Routes = [
   {
@@ -41,6 +43,14 @@ const APP_ROUTES: Routes = [
   {
     path: 'produits/formulaire',
     component: AddModifyProductPageComponent,
+  },
+  {
+    path: 'produits/payer',
+    component: PaymentPageComponent,
+  },
+  {
+    path: 'mes-articles',
+    component: CartArticlesPageComponent,
   },
   {
     path: 'produits/:id',

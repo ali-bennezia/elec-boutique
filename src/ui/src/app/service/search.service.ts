@@ -44,5 +44,10 @@ export class SearchService {
 const APP_CATEGORIES: string[][] = [
   ['bureautique', 'Bureautique'],
   ['fpgas', 'FPGAs'],
+  ['microcontroleurs', 'Microcontrôleurs'],
+  ['signaux-telecommunications', 'Signaux et télécommunications'],
+  ['equipement-outillages', 'Equipement et outillages'],
+  ['industrie', 'Industrie'],
+  ['sciences-recherches', 'Sciences et recherches'],
 ];
 export { APP_CATEGORIES };

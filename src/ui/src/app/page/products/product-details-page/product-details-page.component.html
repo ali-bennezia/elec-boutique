@@ -43,6 +43,10 @@
           Supprimer l'image selectionnée
         </button>
       </span>
+      <p id="price">{{ product.price }}€</p>
+      <button class="sales-btn" (click)="onClickAddToCart(this.product)">
+        Ajouter au panier
+      </button>
     </div>
   </ng-container>
   <ng-template #loadingBlock></ng-template>

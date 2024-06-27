@@ -1,0 +1,6 @@
+<a [routerLink]="['/mes-articles']">
+  <div class="cart-container">
+    <p class="cart-qty-display">{{ this.articleService.cart.length }}</p>
+    <ng-icon name="ionCartOutline" size="30"></ng-icon>
+  </div>
+</a>
