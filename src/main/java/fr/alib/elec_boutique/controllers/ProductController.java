@@ -1,7 +1,10 @@
 package fr.alib.elec_boutique.controllers;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.OptimisticLockingFailureException;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -50,10 +54,20 @@ public class ProductController {
 
 
 	
+	@GetMapping("/users/{id}")
+	public ResponseEntity<?> getProductsByUserId(@PathVariable("id") Long userId) throws
+		IdNotFoundException,
+		IllegalArgumentException
+	{
+		List<ProductOutboundDTO> dtos = this.productService.getProductsByUserId(userId).stream().map(p -> {
+			return new ProductOutboundDTO(p);
+		}).collect(Collectors.toList());
+		return ResponseEntity.ok(dtos);
+	}
+	
 	@PostMapping("")
 	public ResponseEntity<?> postProduct(
-			@Valid @RequestBody ProductInboundDTO dto,
-			@RequestParam(name = "media", required = false) MultipartFile[] files
+			@Valid @RequestBody ProductInboundDTO dto
 			) throws 
 		BadCredentialsException,
 		LackingAuthorizationsException,
@@ -67,8 +81,10 @@ public class ProductController {
 		if (!user.getRoles().contains("ROLE_PROVIDER") && !user.getRoles().contains("ROLE_ADMIN")) 
 			throw new LackingAuthorizationsException("User doesn't posess necessary authorizations.");
 
-		return ResponseEntity.ok( new ProductOutboundDTO( this.productService.createProduct(dto, userService, user, Arrays.asList(files)) ) );
+		return ResponseEntity.ok( new ProductOutboundDTO( this.productService.createProduct(dto, userService, user, new ArrayList<MultipartFile>()) ) );
 	}
+	
+
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getProduct(@PathVariable("id") Long id) throws
@@ -93,8 +109,7 @@ public class ProductController {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@PutMapping("/{id}")
-	@PatchMapping("/{id}")
+	@RequestMapping(value = "/{id}", method = { RequestMethod.PATCH, RequestMethod.PUT })
 	public ResponseEntity<?> editProduct(@PathVariable("id") Long id, @RequestBody ProductInboundDTO dto) throws 
 		BadCredentialsException,
 		LackingAuthorizationsException,

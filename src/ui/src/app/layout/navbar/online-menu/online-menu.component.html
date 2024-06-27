@@ -30,6 +30,16 @@
         <span>Mon profil</span>
       </button>
     </a>
+    <a
+      [routerLink]="['/produits', 'gestion']"
+      ariaCurrentWhenActive="page"
+      *ngIf="authService.isProvider"
+    >
+      <button mat-menu-item>
+        <mat-icon>inventory</mat-icon>
+        <span>Mes articles</span>
+      </button>
+    </a>
     <button mat-menu-item (click)="onClickLogout($event)">
       <mat-icon>logout</mat-icon>
       <span>Se déconnecter</span>

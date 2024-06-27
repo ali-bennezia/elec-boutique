@@ -1,0 +1,43 @@
+<form
+  class="auth-form"
+  [formGroup]="group"
+  (ngSubmit)="onSubmit($event)"
+  style="max-width: 600px"
+>
+  <h1>Enregistrer ou modifier un produit</h1>
+  <div
+    class="auth-form-layout"
+    fxLayout="column"
+    fxLayoutAlign="space-between center"
+  >
+    <div>
+      <mat-form-field>
+        <mat-label>Nom</mat-label>
+        <input matInput type="text" formControlName="name" />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Description</mat-label>
+        <input matInput type="text" formControlName="description" />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Tags</mat-label>
+        <input matInput type="text" formControlName="tags" />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Prix</mat-label>
+        <input matInput type="number" formControlName="price" />
+      </mat-form-field>
+    </div>
+  </div>
+  <button
+    mat-stroked-button
+    type="submit"
+    style="left: 50%; transform: translateX(-50%)"
+    [disabled]="group.invalid || this.loading"
+  >
+    Envoyer
+  </button>
+</form>

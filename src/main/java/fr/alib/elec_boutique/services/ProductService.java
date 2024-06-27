@@ -51,10 +51,23 @@ public class ProductService {
 		OptimisticLockingFailureException
 	{
 		Product product = new Product(dto, new ArrayList<String>(), new ArrayList<Comment>());
+		product.setUser(user);
 		product.setMedias( this.mediaService.storeFiles(files) );
-		user.getProducts().add(product);
-		userService.saveUser(user);
+		product = this.productRepository.save(product);
 		return product;
+	}
+	
+	/**
+	 * Gets a user's products by their id.
+	 * @param userId The user's id.
+	 * @return The products.
+	 * @throws IdNotFoundException
+	 * @throws IllegalArgumentException
+	 */
+	public List<Product> getProductsByUserId(Long userId) throws IdNotFoundException, IllegalArgumentException
+	{
+		List<Product> products = this.productRepository.findAllByUserId(userId);
+		return products;
 	}
 	
 	/**

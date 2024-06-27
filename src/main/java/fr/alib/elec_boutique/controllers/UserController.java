@@ -82,6 +82,7 @@ public class UserController {
 	@PostMapping("/register")
 	public ResponseEntity<?> register( @Valid @RequestBody UserRegisterInboundDTO dto ) throws AddConflictException
 	{
+		System.out.println(dto.getIsProvider());
 		this.userService.register(dto, pwdEncoder, false);
 		return ResponseEntity.created(null).build();
 	}

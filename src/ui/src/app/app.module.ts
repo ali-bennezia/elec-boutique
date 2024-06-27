@@ -44,6 +44,9 @@ import { OnlineMenuComponent } from './layout/navbar/online-menu/online-menu.com
 import { ProfilePageComponent } from './page/user/profile-page/profile-page.component';
 import { UserDetailsPageComponent } from './page/user/user-details-page/user-details-page.component';
 import { AddModifyCardPageComponent } from './page/user/card/add-modify-card-page/add-modify-card-page.component';
+import { ManageProductsPageComponent } from './page/products/manage-products-page/manage-products-page.component';
+import { AddModifyProductPageComponent } from './page/products/add-modify-product-page/add-modify-product-page.component';
+import { ProductDetailsPageComponent } from './page/products/product-details-page/product-details-page.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +65,9 @@ import { AddModifyCardPageComponent } from './page/user/card/add-modify-card-pag
     ProfilePageComponent,
     UserDetailsPageComponent,
     AddModifyCardPageComponent,
+    ManageProductsPageComponent,
+    AddModifyProductPageComponent,
+    ProductDetailsPageComponent,
   ],
   imports: [
     BrowserModule,

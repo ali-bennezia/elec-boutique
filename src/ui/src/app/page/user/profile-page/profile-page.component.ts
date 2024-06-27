@@ -75,15 +75,12 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   onClickDeleteCard(card: CardInboundDTO) {
     this.loading = true;
     this.http
-      .delete<CardInboundDTO[]>(
-        `${environment.backendUri}/api/users/cards/${card.id}`,
-        {
-          observe: 'response',
-          headers: {
-            Authorization: `Bearer ${this.authService.session!.token}`,
-          },
-        }
-      )
+      .delete(`${environment.backendUri}/api/users/cards/${card.id}`, {
+        observe: 'response',
+        headers: {
+          Authorization: `Bearer ${this.authService.session!.token}`,
+        },
+      })
       .pipe(
         tap((_) => {
           this.loading = false;

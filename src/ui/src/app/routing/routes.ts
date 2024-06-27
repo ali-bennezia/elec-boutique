@@ -8,6 +8,9 @@ import { NotFoundPageComponent } from '../page/not-found-page/not-found-page.com
 import { ProfilePageComponent } from '../page/user/profile-page/profile-page.component';
 import { UserDetailsPageComponent } from '../page/user/user-details-page/user-details-page.component';
 import { AddModifyCardPageComponent } from '../page/user/card/add-modify-card-page/add-modify-card-page.component';
+import { ManageProductsPageComponent } from '../page/products/manage-products-page/manage-products-page.component';
+import { AddModifyProductPageComponent } from '../page/products/add-modify-product-page/add-modify-product-page.component';
+import { ProductDetailsPageComponent } from '../page/products/product-details-page/product-details-page.component';
 
 const APP_ROUTES: Routes = [
   {
@@ -30,6 +33,18 @@ const APP_ROUTES: Routes = [
   {
     path: 'profil',
     component: ProfilePageComponent,
+  },
+  {
+    path: 'produits/gestion',
+    component: ManageProductsPageComponent,
+  },
+  {
+    path: 'produits/formulaire',
+    component: AddModifyProductPageComponent,
+  },
+  {
+    path: 'produits/:id',
+    component: ProductDetailsPageComponent,
   },
   {
     path: 'membre/:id',

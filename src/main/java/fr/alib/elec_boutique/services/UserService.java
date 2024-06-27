@@ -132,7 +132,7 @@ public class UserService implements UserDetailsService {
 		List<String> roles = new ArrayList<String>();
 		roles.add("ROLE_USER");
 		if (isAdmin) roles.add("ROLE_ADMIN");
-		if (dto.isProvider()) roles.add("ROLE_PROVIDER");
+		if (dto.getIsProvider().equals(true)) roles.add("ROLE_PROVIDER");
 		
 		user = new User(dto, pwdEncoder, String.join(", ", roles), null, true);
 		user = userRepository.save(user);
