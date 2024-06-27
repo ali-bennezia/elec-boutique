@@ -46,17 +46,6 @@ export class ManageProductsPageComponent implements OnInit {
       });
   }
 
-  handleError(errCode: number) {
-    switch (errCode) {
-      case 400:
-        this.displaySnackbar('Requête invalide.');
-        break;
-      default:
-        this.displaySnackbar('Erreur serveur interne.');
-        break;
-    }
-  }
-
   onClickDeleteProduct(prod: ProductInboundDTO) {
     this.loading = true;
     this.http
@@ -79,6 +68,17 @@ export class ManageProductsPageComponent implements OnInit {
           this.handleError(err.statusCode);
         },
       });
+  }
+
+  handleError(errCode: number) {
+    switch (errCode) {
+      case 400:
+        this.displaySnackbar('Requête invalide.');
+        break;
+      default:
+        this.displaySnackbar('Erreur serveur interne.');
+        break;
+    }
   }
 
   displaySnackbar(msg: string) {

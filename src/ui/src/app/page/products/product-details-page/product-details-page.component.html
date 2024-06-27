@@ -1,1 +1,49 @@
-<p>product-details-page works!</p>
+<div
+  id="product-details-container"
+  fxLayout="row"
+  fxLayout.lt-md="column"
+  fxLayoutAlign.lt-md="space-between center"
+>
+  <ng-container *ngIf="!this.loading && product != null; else loadingBlock">
+    <div id="product-details-gallery" fxFlex="100">
+      <div id="product-details-medias-selector">
+        <img
+          id="product-details-medias-element"
+          *ngFor="let m of this.product.medias; let i = index"
+          [src]="getMediaSrc(m)"
+          (click)="selectedMedia = i"
+        />
+      </div>
+      <img [src]="getSelectedMediaSrc()" style="width: 90%" />
+    </div>
+    <div id="product-details-infos" fxFlex="100">
+      <h1 class="title-bold" style="font-size: 38px">{{ product.name }}</h1>
+      <p style="font-size: 22px">{{ product.description }}</p>
+      <p>{{ product.tags }}</p>
+      <span *ngIf="'' + product.user.id === authService.session?.id">
+        <input
+          type="file"
+          hidden
+          #fileInput
+          (change)="onMediaInputFileChange($event)"
+        />
+        <button
+          mat-stroked-button
+          [disabled]="this.loading"
+          (click)="fileInput.click()"
+        >
+          Ajouter une image
+        </button>
+        <button
+          mat-stroked-button
+          [disabled]="this.loading"
+          style="margin-left: 8px"
+          (click)="onClickDeleteSelectedImage()"
+        >
+          Supprimer l'image selectionnée
+        </button>
+      </span>
+    </div>
+  </ng-container>
+  <ng-template #loadingBlock></ng-template>
+</div>
