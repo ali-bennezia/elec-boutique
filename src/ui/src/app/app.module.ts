@@ -54,6 +54,7 @@ import { ProductDetailsPageComponent } from './page/products/product-details-pag
 import { CartMenuComponent } from './layout/navbar/cart-menu/cart-menu.component';
 import { CartArticlesPageComponent } from './page/products/cart-articles-page/cart-articles-page.component';
 import { PaymentPageComponent } from './page/products/payment-page/payment-page.component';
+import { CardSelectorComponent } from './page/products/cart-articles-page/card-selector/card-selector.component';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { PaymentPageComponent } from './page/products/payment-page/payment-page.
     CartMenuComponent,
     CartArticlesPageComponent,
     PaymentPageComponent,
+    CardSelectorComponent,
   ],
   imports: [
     BrowserModule,

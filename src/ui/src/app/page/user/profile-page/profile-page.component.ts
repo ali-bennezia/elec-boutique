@@ -60,7 +60,6 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
           .subscribe({
             next: (data) => {
               this.cards = data.body ?? [];
-              console.log(this.cards);
             },
             error: (err) => {
               this.handleError(err.statusCode);

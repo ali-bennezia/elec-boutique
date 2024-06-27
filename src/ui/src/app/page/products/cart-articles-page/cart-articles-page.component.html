@@ -22,7 +22,18 @@
   <p style="text-align: center; font-size: 24px; margin: 16px">
     Prix total {{ articleService.getTotalPrice() }}€
   </p>
-  <a [routerLink]="['/produits', 'payer']">
-    <button class="sales-btn">Procéder au paiement</button>
-  </a>
+  <ng-container *ngIf="articleService.cart.length > 0; else noArticlesBlock">
+    <app-card-selector
+      (onSelectedCard)="selectedCard = $event"
+    ></app-card-selector>
+    <a
+      [routerLink]="['/produits', 'payer', selectedCard!.id]"
+      *ngIf="selectedCard != null"
+    >
+      <button class="sales-btn">Procéder au paiement</button>
+    </a>
+  </ng-container>
+  <ng-template #noArticlesBlock>
+    <p>Aucun article n'est dans votre panier.</p>
+  </ng-template>
 </div>

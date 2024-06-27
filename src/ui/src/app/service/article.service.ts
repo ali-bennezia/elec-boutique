@@ -31,6 +31,13 @@ export class ArticleService {
   }
 
   getTotalPrice() {
-    return this.cart.map((art) => art.price).reduce((a, b) => a + b);
+    return this.cart.length == 0
+      ? 0
+      : this.cart.map((art) => art.price).reduce((a, b) => a + b);
+  }
+
+  clearCart() {
+    this.cart = [];
+    this.saveCart();
   }
 }

@@ -45,7 +45,7 @@ const APP_ROUTES: Routes = [
     component: AddModifyProductPageComponent,
   },
   {
-    path: 'produits/payer',
+    path: 'produits/payer/:cardId',
     component: PaymentPageComponent,
   },
   {

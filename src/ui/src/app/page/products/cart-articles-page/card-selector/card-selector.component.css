@@ -1,0 +1,39 @@
+.card-selector-container {
+  width: 400px;
+  height: 46px;
+  padding: 8px;
+  background-color: rgba(0, 0, 0, 0.021);
+  border-radius: 8px;
+  outline: solid 2px rgba(128, 128, 128, 0.212);
+}
+
+.card-selector-container p {
+  line-height: 46px;
+  text-align: center;
+  vertical-align: middle;
+  color: black;
+  font-size: 20px;
+}
+
+.card-selector-container:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.075);
+}
+
+.card-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.card-container:hover {
+  background-color: rgba(0, 0, 0, 0.075);
+  cursor: pointer;
+}
+
+.selected {
+  background-color: rgba(0, 0, 0, 0.11);
+}

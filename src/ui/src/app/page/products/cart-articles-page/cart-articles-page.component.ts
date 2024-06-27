@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CardInboundDTO } from 'src/app/data/payment/dto/inbound/card-inbound-dto';
 import { ArticleService } from 'src/app/service/article.service';
 
 @Component({
@@ -7,5 +8,6 @@ import { ArticleService } from 'src/app/service/article.service';
   styleUrls: ['./cart-articles-page.component.css'],
 })
 export class CartArticlesPageComponent {
+  selectedCard: CardInboundDTO | null = null;
   constructor(public articleService: ArticleService) {}
 }

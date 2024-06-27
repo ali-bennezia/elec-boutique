@@ -1,1 +1,11 @@
-<p>payment-page works!</p>
+<div id="paiement-container">
+  <h2>Paiement en cours ...</h2>
+  <hr />
+  <div *ngIf="!loading; else loadingBlock">
+    <div *ngIf="success">Paiement effectué avec succès.</div>
+    <div *ngIf="failed">Paiement impossible.</div>
+  </div>
+  <ng-template #loadingBlock>
+    <mat-spinner style="margin: 0 auto; margin-top: 64px"></mat-spinner>
+  </ng-template>
+</div>

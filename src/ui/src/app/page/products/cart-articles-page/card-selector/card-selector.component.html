@@ -1,0 +1,18 @@
+<div
+  class="card-selector-container"
+  (click)="displayCards = !this.displayCards"
+>
+  <p>Selectionnez un moyen de paiement</p>
+</div>
+<div *ngIf="this.displayCards" class="card-selector-cards-container">
+  <div
+    *ngFor="let c of cards"
+    class="card-container"
+    (click)="onClickCard(c)"
+    [ngClass]="{ selected: c == selectedCard }"
+  >
+    <p>{{ c.firstName }} {{ c.lastName }}</p>
+    <p>{{ c.partialCode }}</p>
+    <p>{{ c.expirationDateTime | date : "MM/YYYY" }}</p>
+  </div>
+</div>
