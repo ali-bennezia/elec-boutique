@@ -28,6 +28,11 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatTableModule } from '@angular/material/table';
+import {
+  MatPaginator,
+  MatPaginatorIntl,
+  MatPaginatorModule,
+} from '@angular/material/paginator';
 
 import { OfflineMenuComponent } from './layout/navbar/offline-menu/offline-menu.component';
 import { SigninPageComponent } from './page/user/signin-page/signin-page.component';
@@ -58,6 +63,8 @@ import { PaymentPageComponent } from './page/products/payment-page/payment-page.
 import { CardSelectorComponent } from './page/products/cart-articles-page/card-selector/card-selector.component';
 import { SearchProductsPageComponent } from './page/products/search-products-page/search-products-page.component';
 import { ArticleDisplayComponent } from './page/products/search-products-page/article-display/article-display.component';
+
+import { CustomPaginator } from './utils/custom-paginator';
 
 @NgModule({
   declarations: [
@@ -106,6 +113,7 @@ import { ArticleDisplayComponent } from './page/products/search-products-page/ar
     MatMomentDateModule,
     MatDatepickerModule,
     MatTableModule,
+    MatPaginatorModule,
     NgIconsModule.withIcons({
       ionPersonOutline,
       ionMenuOutline,
@@ -119,6 +127,10 @@ import { ArticleDisplayComponent } from './page/products/search-products-page/ar
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'outline' },
+    },
+    {
+      provide: MatPaginatorIntl,
+      useValue: CustomPaginator(),
     },
   ],
   bootstrap: [AppComponent],

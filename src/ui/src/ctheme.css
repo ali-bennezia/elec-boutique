@@ -71,6 +71,9 @@ html {
 
   --mat-datepicker-toggle-icon-color: rgb(16, 15, 29);
   --mat-select-enabled-trigger-text-color: rgba(0, 0, 0, 0.699);
+
+  --mat-paginator-disabled-icon-color: rgba(0, 0, 0, 0.308);
+  --mat-paginator-enabled-icon-color: black;
 }
 
 .mat-mdc-tab-label-container {
@@ -134,4 +137,10 @@ button.mat-calendar-period-button.mdc-button.mat-mdc-button.mat-unthemed.mat-mdc
 button.mat-calendar-period-button.mdc-button.mat-mdc-button.mat-unthemed.mat-mdc-button-base
   span.mdc-button__label {
   color: white;
+}
+
+div.mat-mdc-paginator-container {
+  background-color: rgb(224, 224, 224);
+  box-shadow: rgba(0, 0, 0, 0.37) 0px 0px 4px;
+  color: black;
 }

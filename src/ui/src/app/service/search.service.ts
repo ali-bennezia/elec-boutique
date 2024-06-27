@@ -49,6 +49,11 @@ export class SearchService {
       },
     });
   }
+
+  searchCategory(c: string) {
+    this.emitCategory(c);
+    this.submitSearch();
+  }
 }
 
 const APP_SORTING_OPTIONS = [
@@ -58,6 +63,7 @@ const APP_SORTING_OPTIONS = [
 ];
 
 const APP_CATEGORIES: string[][] = [
+  ['high-tech', 'High-Tech'],
   ['bureautique', 'Bureautique'],
   ['fpgas', 'FPGAs'],
   ['microcontroleurs', 'Microcontrôleurs'],

@@ -1,6 +1,11 @@
 <div id="search-container">
   <div id="search-categs">
-    <p *ngFor="let c of appCategories">{{ c[1] }}</p>
+    <p
+      *ngFor="let c of appCategories"
+      (click)="searchService.searchCategory(c[0])"
+    >
+      {{ c[1] }}
+    </p>
   </div>
   <div style="width: 100%">
     <form [formGroup]="group" class="search-form">
@@ -62,11 +67,24 @@
         </mat-select>
       </mat-form-field>
     </form>
-    <div class="search-content">
+    <div
+      class="search-content"
+      *ngIf="!loading && this.articles != null; else loadingBlock"
+    >
       <app-article-display
         *ngFor="let a of articles?.content"
         [articleData]="a"
       ></app-article-display>
     </div>
+    <ng-template #loadingBlock>
+      <mat-spinner style="margin: 0 auto; margin-top: 64px"></mat-spinner>
+    </ng-template>
+    <mat-paginator
+      [length]="this.articles != null ? this.articles.totalPagesAmount * 10 : 0"
+      [pageSize]="10"
+      [pageIndex]="this.articles != null ? this.articles.pageIndex : 0"
+      aria-label="Select page"
+    >
+    </mat-paginator>
   </div>
 </div>

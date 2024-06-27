@@ -100,7 +100,12 @@
   </mat-toolbar-row>
   <mat-toolbar-row class="navbar-secondary">
     <div>
-      <a mat-button *ngFor="let c of categories">{{ c[1] }}</a>
+      <a
+        mat-button
+        *ngFor="let c of categories"
+        (click)="searchService.searchCategory(c[0])"
+        >{{ c[1] }}</a
+      >
     </div>
   </mat-toolbar-row>
 </mat-toolbar>

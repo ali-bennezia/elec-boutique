@@ -21,6 +21,7 @@ import { ProductPageInboundDTO } from 'src/app/data/products/dto/inbound/product
 export class SearchProductsPageComponent implements OnInit, OnDestroy {
   public appCategories: string[][] = APP_CATEGORIES;
   public appSortingOptions: string[][] = APP_SORTING_OPTIONS;
+  page: number = 0;
 
   articles: ProductPageInboundDTO | null = null;
   loading: boolean = false;
@@ -50,6 +51,10 @@ export class SearchProductsPageComponent implements OnInit, OnDestroy {
         params.append(p, vals[p]);
       }
     }
+    if (this.searchService.lastQuery.trim() != '')
+      params.append('query', this.searchService.lastQuery);
+    if (this.searchService.lastCategory.trim() != '')
+      params.append('categories', this.searchService.lastCategory);
     let str = params.toString();
     let res = str == '' ? '' : `?${str}`;
     return res;
@@ -101,6 +106,9 @@ export class SearchProductsPageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.fetchArticles();
+    this.searchService.onSearch$.subscribe(() => {
+      this.fetchArticles();
+    });
   }
 
   ngOnDestroy(): void {}

@@ -23,7 +23,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 			+ ") AND "
 			+ "("
 			+ "( :userId IS NULL OR p.user_product_id = :userId ) AND "
-			+ "( :categories IS NULL OR p.tags LIKE CONCAT('%', :categories, '%') ) AND "
+			+ "( :categories IS NULL OR LOWER(p.tags) LIKE LOWER(CONCAT('%', :categories, '%') )) AND "
 			+ "( :miprc IS NULL OR p.price >= :miprc ) AND "
 			+ "( :mxprc IS NULL OR p.price <= :mxprc ) AND "
 			+ "( :mieval IS NULL OR p.average_note >= :mieval ) AND "
