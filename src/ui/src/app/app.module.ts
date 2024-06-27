@@ -44,6 +44,7 @@ import { MobileMenuComponent } from './layout/navbar/mobile-menu/mobile-menu.com
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSelectModule } from '@angular/material/select';
 import { OnlineMenuComponent } from './layout/navbar/online-menu/online-menu.component';
 import { ProfilePageComponent } from './page/user/profile-page/profile-page.component';
 import { UserDetailsPageComponent } from './page/user/user-details-page/user-details-page.component';
@@ -55,6 +56,8 @@ import { CartMenuComponent } from './layout/navbar/cart-menu/cart-menu.component
 import { CartArticlesPageComponent } from './page/products/cart-articles-page/cart-articles-page.component';
 import { PaymentPageComponent } from './page/products/payment-page/payment-page.component';
 import { CardSelectorComponent } from './page/products/cart-articles-page/card-selector/card-selector.component';
+import { SearchProductsPageComponent } from './page/products/search-products-page/search-products-page.component';
+import { ArticleDisplayComponent } from './page/products/search-products-page/article-display/article-display.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +83,8 @@ import { CardSelectorComponent } from './page/products/cart-articles-page/card-s
     CartArticlesPageComponent,
     PaymentPageComponent,
     CardSelectorComponent,
+    SearchProductsPageComponent,
+    ArticleDisplayComponent,
   ],
   imports: [
     BrowserModule,
@@ -96,6 +101,7 @@ import { CardSelectorComponent } from './page/products/cart-articles-page/card-s
     MatTabsModule,
     MatGridListModule,
     MatDialogModule,
+    MatSelectModule,
     MatProgressSpinnerModule,
     MatMomentDateModule,
     MatDatepickerModule,

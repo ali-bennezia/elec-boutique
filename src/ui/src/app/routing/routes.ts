@@ -13,6 +13,7 @@ import { AddModifyProductPageComponent } from '../page/products/add-modify-produ
 import { ProductDetailsPageComponent } from '../page/products/product-details-page/product-details-page.component';
 import { CartArticlesPageComponent } from '../page/products/cart-articles-page/cart-articles-page.component';
 import { PaymentPageComponent } from '../page/products/payment-page/payment-page.component';
+import { SearchProductsPageComponent } from '../page/products/search-products-page/search-products-page.component';
 
 const APP_ROUTES: Routes = [
   {
@@ -47,6 +48,10 @@ const APP_ROUTES: Routes = [
   {
     path: 'produits/payer/:cardId',
     component: PaymentPageComponent,
+  },
+  {
+    path: 'produits/chercher',
+    component: SearchProductsPageComponent,
   },
   {
     path: 'mes-articles',

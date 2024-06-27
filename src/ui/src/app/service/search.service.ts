@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import SearchData from '../data/service/search/search-data-interface';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SearchService {
-  constructor() {}
+  constructor(private router: Router) {}
 
   onSearchSource: Subject<SearchData> = new Subject();
   onSearch$: Observable<SearchData> = this.onSearchSource
@@ -39,7 +40,22 @@ export class SearchService {
     this._lastQuery = query;
     this.triggerObservable();
   }
+
+  submitSearch() {
+    this.router.navigate(['/produits', 'chercher'], {
+      queryParams: {
+        query: this._lastQuery,
+        categories: JSON.stringify([this._lastCategory]),
+      },
+    });
+  }
 }
+
+const APP_SORTING_OPTIONS = [
+  ['name', 'Nom'],
+  ['price', 'Prix'],
+  ['average_note', 'Note moyenne'],
+];
 
 const APP_CATEGORIES: string[][] = [
   ['bureautique', 'Bureautique'],
@@ -50,4 +66,4 @@ const APP_CATEGORIES: string[][] = [
   ['industrie', 'Industrie'],
   ['sciences-recherches', 'Sciences et recherches'],
 ];
-export { APP_CATEGORIES };
+export { APP_CATEGORIES, APP_SORTING_OPTIONS };

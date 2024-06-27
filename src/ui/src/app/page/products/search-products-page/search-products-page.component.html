@@ -1,0 +1,72 @@
+<div id="search-container">
+  <div id="search-categs">
+    <p *ngFor="let c of appCategories">{{ c[1] }}</p>
+  </div>
+  <div style="width: 100%">
+    <form [formGroup]="group" class="search-form">
+      <mat-form-field>
+        <mat-label>Prix minimal</mat-label>
+        <input
+          matInput
+          formControlName="miprice"
+          type="number"
+          (input)="onInput($event)"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Prix maximal</mat-label>
+        <input
+          matInput
+          formControlName="mxprice"
+          type="number"
+          (input)="onInput($event)"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Note minimale</mat-label>
+        <input
+          matInput
+          formControlName="mieval"
+          type="number"
+          (input)="onInput($event)"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Note maximale</mat-label>
+        <input
+          matInput
+          formControlName="mxeval"
+          type="number"
+          (input)="onInput($event)"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Catégoriser par</mat-label>
+        <mat-select
+          formControlName="sortby"
+          (selectionChange)="fetchArticles()"
+        >
+          <mat-option *ngFor="let opt of appSortingOptions" [value]="opt[0]">{{
+            opt[1]
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>En ordre</mat-label>
+        <mat-select
+          formControlName="sortorder"
+          (selectionChange)="fetchArticles()"
+        >
+          <mat-option [value]="1">Ascendant</mat-option>
+          <mat-option [value]="-1">Descendant</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+    <div class="search-content">
+      <app-article-display
+        *ngFor="let a of articles?.content"
+        [articleData]="a"
+      ></app-article-display>
+    </div>
+  </div>
+</div>

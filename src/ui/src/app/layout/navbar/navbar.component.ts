@@ -17,7 +17,6 @@ export class NavbarComponent {
 
   onSearchSubmit(e: Event) {
     e.preventDefault();
-    let query = this.searchService.lastQuery;
-    console.log(query);
+    this.searchService.submitSearch();
   }
 }

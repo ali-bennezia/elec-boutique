@@ -1,0 +1,14 @@
+<div class="article-display-container">
+  <img
+    [src]="
+      getMediaSrc(articleData.medias.length > 0 ? articleData.medias[0] : null)
+    "
+  />
+  <p id="article-display-title">{{ articleData.name }}</p>
+  <p>{{ articleData.description }}</p>
+  <p>{{ articleData.tags }}</p>
+  <p id="article-display-price">{{ articleData.price }}€</p>
+  <button class="sales-btn" (click)="onClickAddToCart()">
+    Ajouter au panier
+  </button>
+</div>

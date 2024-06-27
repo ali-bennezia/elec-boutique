@@ -70,6 +70,7 @@ html {
   --mdc-checkbox-unselected-icon-color: rgba(31, 29, 49, 0.507);
 
   --mat-datepicker-toggle-icon-color: rgb(16, 15, 29);
+  --mat-select-enabled-trigger-text-color: rgba(0, 0, 0, 0.699);
 }
 
 .mat-mdc-tab-label-container {
